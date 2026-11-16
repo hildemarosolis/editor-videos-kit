@@ -1,0 +1,26 @@
+{
+  "_plantilla": {
+    "receta": "Titular detrás",
+    "modelo": "variante v3",
+    "cuando": "Variante para reels de prueba: arranca con la frase más fuerte, glitch, titular gigante detrás de la persona",
+    "ejemplo": "subtitulos/recetas/ejemplos/titular-detras.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "antes: montaje con dos tramos del corte (frase fuerte + vídeo desde el principio con glitch), preparar.py --sin-silencios y recorte.py",
+      "detras: 2-3 titulares gigantes (el de la frase fuerte, el del gancho y el dato clave); y≈60, «|» parte la línea",
+      "golpes y chips: con «despues_de» si la frase se repite por el teaser",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ],
+    "montaje": "subtitulos/recetas/ejemplos/titular-detras.montaje.ejemplo.json",
+    "montaje_sufijo": "DETRAS"
+  },
+  "tema": "__TEMA__",
+  "variante": "titular detrás",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "detras": "__TITULARES_DETRAS__",
+  "golpes": "__GOLPES?__",
+  "chips": "__CHIPS?__",
+  "logos": "__LOGOS?__"
+}

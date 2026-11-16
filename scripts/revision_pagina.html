@@ -1,0 +1,574 @@
+<title>__TITULO__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Mesa de revisión: el vídeo fijo a un lado (arriba en el móvil) y las piezas en fila, cada una con su veredicto. */
+:root {
+  --bg: #11100d; --panel: #1b1a16; --line: #2e2c26; --fg: #f4f1e8; --muted: #a39e90;
+  --accent: #ffc800; --accent-ink: #ffc800; --on-accent: #111;
+  --ok: #3dbb78; --cambio: #ff6b3d; --aviso-bg: #3a2a08; --aviso-fg: #ffd66b;
+  --display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #f3f0e7; --panel: #fffdf8; --line: #ddd7c8; --fg: #17150f; --muted: #6b665a;
+  --accent: #ffc800; --accent-ink: #8a6500; --on-accent: #111;
+  --ok: #1f8a52; --cambio: #d4461a; --aviso-bg: #fff1c7; --aviso-fg: #6b4b00; color-scheme: light } }
+:root[data-theme="light"] {
+  --bg: #f3f0e7; --panel: #fffdf8; --line: #ddd7c8; --fg: #17150f; --muted: #6b665a;
+  --accent: #ffc800; --accent-ink: #8a6500; --on-accent: #111;
+  --ok: #1f8a52; --cambio: #d4461a; --aviso-bg: #fff1c7; --aviso-fg: #6b4b00; color-scheme: light }
+
+body { background: var(--bg); color: var(--fg); font: 16px/1.45 var(--body); }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px 48px; max-width: 1120px; margin: 0 auto; }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 400 clamp(28px, 6vw, 44px)/1 var(--display); text-transform: uppercase; margin: 6px 0 0; text-wrap: balance; }
+h1 .letra { color: var(--accent-ink); }
+.cuenta { display: flex; gap: 8px; flex-wrap: wrap; font: 600 13px/1 var(--body); }
+.cuenta span { padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cuenta .c-ok { color: var(--ok); } .cuenta .c-cambio { color: var(--cambio); }
+
+.mesa { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.visor { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); display: flex; flex-direction: column; gap: 10px; }
+video { width: 100%; aspect-ratio: 9 / 16; max-width: 100%; background: #000; border-radius: 10px; display: block; }
+.linea { position: relative; height: 28px; border-radius: 6px; background: var(--panel); border: 1px solid var(--line); cursor: pointer; touch-action: manipulation; }
+.linea .prog { position: absolute; inset: 0 auto 0 0; background: color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 6px 0 0 6px; pointer-events: none; }
+.linea .marca { position: absolute; top: 4px; bottom: 4px; width: 6px; margin-left: -3px; border-radius: 3px; background: var(--muted); border: 0; padding: 0; cursor: pointer; }
+.linea .marca[data-estado="aprobado"] { background: var(--ok); }
+.linea .marca[data-estado="cambios"] { background: var(--cambio); }
+.linea .marca.activa { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tc-fila { display: flex; justify-content: space-between; font: 500 12px/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Notas por segundo: una nota libre atada al segundo exacto donde paraste el vídeo. */
+.linea .nmarca { position: absolute; top: -7px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--accent);
+  border: 2px solid var(--bg); padding: 0; cursor: pointer; z-index: 2; }
+.linea .nmarca::after { content: ""; position: absolute; inset: -8px; }   /* más fácil de tocar en el móvil */
+.nota-btn { font: 600 14px/1 var(--body); min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--fg); cursor: pointer; }
+.nota-btn:disabled { opacity: .45; cursor: default; }
+dialog.dlg-nota { width: min(420px, calc(100vw - 32px)); box-sizing: border-box; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--fg); padding: 16px; }
+dialog.dlg-nota::backdrop { background: rgb(0 0 0 / .55); }
+.dlg-nota form { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.dlg-nota .donde { font: 500 13px/1.3 var(--mono); color: var(--muted); }
+.dlg-nota .donde b { color: var(--accent-ink); font-weight: 500; }
+.dlg-nota textarea { font-size: 16px; min-height: 96px; }   /* 16 px: el iPhone no hace zoom al escribir */
+.dlg-nota .botones { display: flex; justify-content: flex-end; gap: 8px; }
+.dlg-nota .botones button { font: 600 15px/1 var(--body); min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.dlg-nota .botones .guardar-nota { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.dlg-nota .botones button:disabled { opacity: .5; cursor: default; }
+.dlg-nota .err { font-size: 13px; color: var(--cambio); min-height: 1em; margin: 0; }
+.notas { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.notas h2 { font-size: 17px; }
+.notas .vacio { margin: 0; color: var(--muted); font-size: 14px; }
+.nota { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 10px; align-items: start; padding-top: 10px; border-top: 1px solid var(--line); }
+.notas .nota:first-of-type { border-top: 0; padding-top: 0; }
+.nota .ir-nota { font: 500 13px/1 var(--mono); color: var(--accent-ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 10px; cursor: pointer; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.nota .txt { margin: 0; overflow-wrap: anywhere; white-space: pre-line; }
+.nota .de { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.nota .borrar { font: 600 13px/1 var(--body); color: var(--muted); background: transparent; border: 0; padding: 8px; cursor: pointer; min-width: 44px; min-height: 36px; }
+.nota .borrar:hover { color: var(--cambio); }
+.notas-pieza { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 8px; border: 1px dashed var(--accent); }
+.notas-pieza > b { font: 600 11px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); }
+.notas-pieza .nota { border-top: 0; padding-top: 0; }
+
+.aviso-db { padding: 12px 14px; border-radius: 8px; background: var(--aviso-bg); color: var(--aviso-fg); font-weight: 500; margin-bottom: 14px; }
+.lista { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.pieza { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; scroll-margin-top: 16px; }
+.pieza.activa { border-color: var(--accent); }
+.pieza[data-estado="aprobado"] { border-left: 4px solid var(--ok); }
+.pieza[data-estado="cambios"] { border-left: 4px solid var(--cambio); }
+.cab { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.n { font: 400 26px/1 var(--display); color: var(--accent-ink); }
+.tc { font: 500 13px/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.tipo { font: 600 11px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.tipo.nuevo { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+.ir { margin-left: auto; font: 600 13px/1 var(--body); color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; cursor: pointer; }
+.ir:hover { border-color: var(--accent); }
+h2 { font: 700 20px/1.2 var(--body); margin: 0; text-wrap: balance; overflow-wrap: anywhere; }
+.campo { display: flex; flex-direction: column; gap: 3px; }
+.campo b { font: 600 11px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.campo p { margin: 0; overflow-wrap: anywhere; }
+.dice p { font-style: italic; }
+.fuente p { font-size: 14px; color: var(--muted); }
+[hidden] { display: none !important; }  /* .campo es flex y si no taparía el atributo */
+.caption p { white-space: pre-line; }
+.titular p { font: 400 30px/1.05 var(--display); text-transform: uppercase; white-space: pre-line; }
+.titular p span { color: var(--accent-ink); }
+.titular small { font-size: 14px; color: var(--muted); }
+details { font-size: 14px; }
+details summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+details pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.45 var(--mono); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 8px 0 0; }
+.necesita { padding: 10px 12px; border-radius: 8px; background: var(--aviso-bg); color: var(--aviso-fg); }
+.necesita b { color: var(--aviso-fg); }
+.veredicto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.veredicto button { font: 600 14px/1 var(--body); padding: 12px 6px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.veredicto button[aria-pressed="true"][data-v="aprobado"] { background: var(--ok); border-color: var(--ok); color: #fff; }
+.veredicto button[aria-pressed="true"][data-v="cambios"] { background: var(--cambio); border-color: var(--cambio); color: #fff; }
+.veredicto button[aria-pressed="true"][data-v="pendiente"] { background: var(--line); }
+textarea { width: 100%; min-height: 64px; resize: vertical; box-sizing: border-box; font: 15px/1.4 var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+textarea:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.guardado { font-size: 13px; color: var(--muted); min-height: 1em; }
+.fin { margin-top: 8px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.fin button { font: 600 16px/1 var(--body); padding: 14px 18px; border-radius: 10px; border: 0; background: var(--accent); color: var(--on-accent); cursor: pointer; }
+.fin button:disabled { opacity: .5; cursor: default; }
+.fin p { margin: 0; color: var(--muted); }
+
+/* Ajustes de la pieza (fase 4 del editor): campos editables que luego aplica scripts/ajustes.py a la receta. */
+.ajustes { border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+.ajustes h3 { font: 700 15px/1.2 var(--body); margin: 0; }
+.filas { display: flex; flex-direction: column; gap: 14px; }
+.fila { display: flex; flex-direction: column; gap: 5px; }
+.etq { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font: 600 11px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.etq .chg { font: 500 12px/1.2 var(--body); letter-spacing: 0; text-transform: none; color: var(--cambio); text-align: right; }
+.ajustes input[type="text"] { width: 100%; box-sizing: border-box; font: 16px/1.2 var(--body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-height: 44px; }
+.opc { display: flex; flex-wrap: wrap; gap: 6px; }
+.opc button { font: 600 14px/1 var(--body); min-height: 44px; padding: 0 14px; flex: 1 1 auto; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.opc button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.paso { display: flex; align-items: center; gap: 8px; }
+.paso button { width: 48px; height: 48px; font: 600 22px/1 var(--body); border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.paso input[type="text"] { width: 92px; text-align: center; }
+.paso .u { color: var(--muted); min-width: 1.5em; }
+.barra-aj { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.barra-aj .n-aj { font-size: 13px; color: var(--muted); }
+.barra-aj .botones { display: flex; gap: 8px; }
+.barra-aj button { font: 600 14px/1 var(--body); min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer; }
+.barra-aj .guardar-aj { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.ajustes button:disabled { opacity: .45; cursor: default; }
+.guardado-aj { font-size: 13px; color: var(--muted); min-height: 1em; }
+
+@media (max-width: 760px) {
+  .mesa { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .visor { top: env(safe-area-inset-top, 0px); background: var(--bg); padding-block: 8px; z-index: 5; flex-direction: row; align-items: stretch; }
+  video { width: auto; height: 34vh; max-height: 300px; flex: none; }
+  .visor .ctrl { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: end; gap: 8px; }
+}
+@media (min-width: 761px) { .visor .ctrl { display: flex; flex-direction: column; gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow" id="sub">Revisión</div>
+      <h1 id="titulo"></h1>
+    </div>
+    <div class="cuenta" aria-live="polite">
+      <span class="c-ok" id="n-ok">0 aprobadas</span>
+      <span class="c-cambio" id="n-cambio">0 con cambios</span>
+      <span id="n-pend">0 pendientes</span>
+    </div>
+  </header>
+  <div class="aviso-db" id="aviso-db" hidden>Esta vista no puede guardar tus marcas. Ábrela desde claude.ai con tu cuenta.</div>
+  <div class="mesa">
+    <div class="visor">
+      <video id="video" src="muestra.mp4" controls playsinline preload="metadata"></video>
+      <div class="ctrl">
+        <div class="linea" id="linea" role="group" aria-label="Piezas en la línea de tiempo"><div class="prog" id="prog"></div></div>
+        <div class="tc-fila"><span id="tc-actual">00:00</span><span id="tc-pieza"></span><span id="tc-total">00:00</span></div>
+        <button class="nota-btn" id="nota-btn" type="button">✎ Nota en este segundo</button>
+      </div>
+    </div>
+    <div class="lista" id="lista">
+      <section class="notas" id="notas" aria-live="polite">
+        <h2>Tus notas en el vídeo</h2>
+        <p class="vacio" id="notas-vacio">¿Algo que no tiene pieza, como un ruido, un corte o algo que tapa la cara? Para el vídeo en ese momento y pulsa «✎ Nota en este segundo».</p>
+      </section>
+    </div>
+  </div>
+  <dialog class="dlg-nota" id="dlg-nota" aria-labelledby="dlg-donde">
+    <form method="dialog" id="form-nota">
+      <div class="donde" id="dlg-donde"></div>
+      <textarea id="nota-txt" placeholder="Qué pasa en este segundo y qué cambiarías" maxlength="600" required></textarea>
+      <p class="err" id="nota-err"></p>
+      <div class="botones"><button type="button" id="nota-cancelar">Cancelar</button><button type="submit" class="guardar-nota" id="nota-guardar">Guardar nota</button></div>
+    </form>
+  </dialog>
+  <div class="fin">
+    <button id="terminar" type="button">He terminado la revisión</button>
+    <p id="fin-msg">Cuando acabes, pulsa aquí y dile a Claude en el chat «revisada».</p>
+  </div>
+</div>
+
+<script id="datos" type="application/json">__DATOS__</script>
+<script>
+const D = JSON.parse(document.getElementById("datos").textContent);
+const V = D.version;
+const estado = {};   // id → {estado, comentario}
+const ajus = {};     // id → {orig: valores de la receta, cur: lo que enseña la pantalla, guardado: {campo: valor} en la base}
+let db = null;
+const $ = s => document.querySelector(s);
+const video = $("#video");
+const tc = s => { s = Math.max(0, s); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(Math.floor(s % 60)).padStart(2, "0"); };
+
+$("#titulo").innerHTML = "";
+$("#titulo").append(D.tema + " ");
+const letra = document.createElement("span"); letra.className = "letra"; letra.textContent = (D.letra ? D.letra + " " : "") + D.variante;
+$("#titulo").append(letra);
+$("#sub").textContent = "Revisión " + V + " · " + D.piezas.length + " piezas · " + tc(D.duracion);
+$("#tc-total").textContent = tc(D.duracion);
+
+const lista = $("#lista"), linea = $("#linea");
+for (const p of D.piezas) {
+  estado[p.id] = { estado: "pendiente", comentario: "" };
+  const el = document.createElement("article");
+  el.className = "pieza"; el.id = p.id; el.dataset.estado = "pendiente";
+  el.innerHTML = `
+    <div class="cab"><span class="n"></span><span class="tc"></span><span class="tipo"></span>
+      <button class="ir" type="button">▶ Ver</button></div>
+    <h2></h2>
+    <div class="campo dice"><b>Lo que dices</b><p></p></div>
+    <div class="campo hace"><b>Qué se ve</b><p></p></div>
+    <div class="campo fuente"><b>Fuente</b><p></p></div>
+    <div class="necesita"><b>Necesita</b><p></p></div>
+    <div class="notas-pieza" hidden><b>Tus notas en esta pieza</b></div>
+    <div class="veredicto" role="group" aria-label="Veredicto">
+      <button type="button" data-v="aprobado" aria-pressed="false">Aprobado</button>
+      <button type="button" data-v="cambios" aria-pressed="false">Cambios</button>
+      <button type="button" data-v="pendiente" aria-pressed="true">Pendiente</button>
+    </div>
+    <textarea placeholder="Comentario para Claude: qué cambiarías de esta pieza"></textarea>
+    <div class="guardado"></div>`;
+  el.querySelector(".n").textContent = p.id.slice(1);
+  el.querySelector(".tc").textContent = tc(p.t) + " · " + p.dur.toFixed(1).replace(".", ",") + " s";
+  el.querySelector(".tipo").textContent = p.tipo;
+  if (p.cambiada) { const c = document.createElement("span"); c.className = "tipo nuevo"; c.textContent = "Rehecha en " + V; el.querySelector(".tipo").after(c); }
+  el.querySelector("h2").textContent = p.titulo;
+  el.querySelector(".dice p").textContent = p.dice ? "«" + p.dice + "»" : "—";
+  el.querySelector(".hace p").textContent = p.hace;
+  if (p.texto) textoPublicar(el, p);
+  if (p.fuente) el.querySelector(".fuente p").textContent = p.fuente; else el.querySelector(".fuente").hidden = true;
+  if (p.necesita.length) el.querySelector(".necesita p").textContent = p.necesita.join(" "); else el.querySelector(".necesita").hidden = true;
+  el.querySelector("textarea").id = "com-" + p.id;
+  el.querySelector(".ir").addEventListener("click", () => ver(p));
+  el.querySelectorAll(".veredicto button").forEach(b => b.addEventListener("click", () => marcar(p, b.dataset.v)));
+  let espera;
+  el.querySelector("textarea").addEventListener("input", e => {
+    estado[p.id].comentario = e.target.value;
+    clearTimeout(espera); espera = setTimeout(() => guardar(p), 900);
+  });
+  if (p.ajustes && p.ajustes.length) dibujarAjustes(el, p);
+  lista.append(el);
+  if (ajus[p.id]) pintarAjustes(p);
+  if (p.texto) continue;  // el texto no está en la línea de tiempo
+
+  const m = document.createElement("button");
+  m.className = "marca"; m.type = "button"; m.style.left = (100 * p.t / D.duracion) + "%";
+  m.setAttribute("aria-label", "Pieza " + p.id.slice(1) + ": " + p.titulo); m.dataset.id = p.id;
+  m.addEventListener("click", e => { e.stopPropagation(); ver(p); document.getElementById(p.id).scrollIntoView({ block: "nearest", behavior: "smooth" }); });
+  linea.append(m);
+}
+
+// p00: caption y portada para publicar, sin momento en el vídeo.
+function textoPublicar(el, p) {
+  el.querySelector(".tc").textContent = "Para publicar";
+  el.querySelector(".ir").hidden = true;
+  el.querySelector(".dice").hidden = true;
+  const hace = el.querySelector(".hace");
+  hace.className = "campo caption"; hace.querySelector("b").textContent = "Caption";
+  hace.querySelector("p").textContent = p.caption;
+  const tit = document.createElement("div"); tit.className = "campo titular";
+  tit.innerHTML = "<b>Portada 9:16 · titular</b><p></p><small></small>";
+  const [l1, ...resto] = p.titular.split("\n");
+  tit.querySelector("p").append(l1 + (resto.length ? "\n" : ""));
+  if (resto.length) { const am = document.createElement("span"); am.textContent = resto.join("\n"); tit.querySelector("p").append(am); }
+  tit.querySelector("small").textContent = p.captura;
+  const det = document.createElement("details");
+  det.innerHTML = "<summary>Ver el prompt completo de la portada</summary><pre></pre>";
+  det.querySelector("pre").textContent = p.prompt;
+  hace.after(tit, det);
+  el.querySelector("textarea").placeholder = "Comentario para Claude: qué cambiarías del caption o de la portada";
+}
+
+function ver(p) {
+  video.currentTime = Math.max(0, p.t - 1);
+  video.play().catch(() => {});
+}
+linea.addEventListener("click", e => {
+  const r = linea.getBoundingClientRect();
+  video.currentTime = D.duracion * Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+});
+video.addEventListener("timeupdate", () => {
+  const t = video.currentTime;
+  $("#tc-actual").textContent = tc(t);
+  $("#prog").style.width = (100 * t / D.duracion) + "%";
+  const act = piezaEn(t);
+  document.querySelectorAll(".pieza.activa, .marca.activa").forEach(x => x.classList.remove("activa"));
+  $("#tc-pieza").textContent = act ? act.id.slice(1) + " · " + act.tipo : "";
+  if (act) { document.getElementById(act.id).classList.add("activa"); linea.querySelector(`[data-id="${act.id}"]`).classList.add("activa"); }
+});
+
+function pintar(id) {
+  const el = document.getElementById(id), s = estado[id];
+  el.dataset.estado = s.estado;
+  el.querySelectorAll(".veredicto button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === s.estado)));
+  const ta = el.querySelector("textarea");
+  if (document.activeElement !== ta) ta.value = s.comentario;
+  const m = linea.querySelector(`[data-id="${id}"]`);
+  if (m) m.dataset.estado = s.estado;
+  contar();
+}
+
+function contar() {
+  const vals = Object.values(estado);
+  const ok = vals.filter(x => x.estado === "aprobado").length, ca = vals.filter(x => x.estado === "cambios").length;
+  $("#n-ok").textContent = ok + (ok === 1 ? " aprobada" : " aprobadas");
+  $("#n-cambio").textContent = ca + " con cambios";
+  $("#n-pend").textContent = (vals.length - ok - ca) + (vals.length - ok - ca === 1 ? " pendiente" : " pendientes");
+}
+
+function marcar(p, v) {
+  estado[p.id].estado = v;
+  pintar(p.id);
+  if (v === "cambios") document.getElementById(p.id).querySelector("textarea").focus();
+  guardar(p);
+}
+
+contar();
+
+// --- Ajustes de la pieza: se guardan en «ajustes/<versión>-<pieza>» y los aplica scripts/ajustes.py a la receta ---
+// funciones y no const: el bucle de arriba dibuja las piezas antes de llegar a esta parte del script
+function igual(a, b) { return typeof a === "number" && typeof b === "number" ? Math.abs(a - b) < 1e-9 : a === b; }
+function norm(o) { return JSON.stringify(Object.keys(o).sort().map(k => [k, o[k]])); }
+function visible(c, cur) { return !c.solo_si || Object.entries(c.solo_si).every(([k, v]) => cur[k] === v); }
+function mostrado(c, v) { return c.tipo === "texto" ? "«" + v + "»" : c.tipo === "segundos" ? v.toFixed(1).replace(".", ",") + " s" : c.tipo === "pixeles" ? Math.round(v) + " px" : v; }
+function cambiosDe(p) {   // lo que de verdad cambia respecto a la receta, sin los campos que el estilo de hoy no usa
+  const a = ajus[p.id], out = {};
+  for (const c of p.ajustes) if (visible(c, a.cur) && !igual(a.cur[c.campo], a.orig[c.campo])) out[c.campo] = a.cur[c.campo];
+  return out;
+}
+
+function dibujarAjustes(el, p) {
+  const orig = {}; for (const c of p.ajustes) orig[c.campo] = c.valor;
+  const a = ajus[p.id] = { orig, cur: { ...orig }, guardado: {} };
+  const caja = document.createElement("section"); caja.className = "ajustes";
+  caja.innerHTML = '<h3>Ajustes de la pieza</h3><div class="filas"></div>' +
+    '<div class="barra-aj"><span class="n-aj"></span><span class="botones"><button type="button" class="restablecer">Restablecer</button>' +
+    '<button type="button" class="guardar-aj">Guardar ajustes</button></span></div><div class="guardado-aj"></div>';
+  const filas = caja.querySelector(".filas");
+  const boton = (txt, fn, etiqueta) => { const b = document.createElement("button"); b.type = "button"; b.textContent = txt; if (etiqueta) b.setAttribute("aria-label", etiqueta); b.addEventListener("click", fn); return b; };
+  for (const c of p.ajustes) {
+    const f = document.createElement("div"); f.className = "fila"; f.dataset.campo = c.campo;
+    f.innerHTML = '<div class="etq"><span></span><span class="chg" hidden></span></div><div class="ctl"></div>';
+    f.querySelector(".etq span").textContent = c.etiqueta;
+    const ctl = f.querySelector(".ctl");
+    const poner = v => { a.cur[c.campo] = v; pintarAjustes(p); };
+    const limitar = v => Math.min(c.max, Math.max(c.min, c.tipo === "pixeles" ? Math.round(v) : Math.round(v * 10) / 10));
+    if (c.tipo === "texto") {
+      const i = document.createElement("input"); i.type = "text"; i.maxLength = c.max || 60; i.setAttribute("aria-label", c.etiqueta);
+      i.addEventListener("input", () => poner(i.value));
+      ctl.append(i);
+    } else if (c.tipo === "opciones") {
+      ctl.className = "ctl opc";
+      for (const o of c.opciones) ctl.append(boton(o, () => poner(o)));
+    } else {   // segundos o píxeles: − y + y el número, que también se puede escribir
+      ctl.className = "ctl paso";
+      const i = document.createElement("input"); i.type = "text"; i.inputMode = "decimal"; i.setAttribute("aria-label", c.etiqueta);
+      i.addEventListener("input", () => { const v = parseFloat(i.value.replace(",", ".")); if (!isNaN(v)) poner(limitar(v)); });
+      i.addEventListener("blur", () => pintarAjustes(p));
+      const u = document.createElement("span"); u.className = "u"; u.textContent = c.tipo === "segundos" ? "s" : "px";
+      ctl.append(boton("−", () => poner(limitar(a.cur[c.campo] - c.paso)), "Menos"), i, u, boton("+", () => poner(limitar(a.cur[c.campo] + c.paso)), "Más"));
+    }
+    filas.append(f);
+  }
+  caja.querySelector(".restablecer").addEventListener("click", () => { a.cur = { ...a.orig }; pintarAjustes(p); });
+  caja.querySelector(".guardar-aj").addEventListener("click", () => guardarAjustes(p));
+  el.append(caja);
+}
+
+function pintarAjustes(p) {
+  const a = ajus[p.id], caja = document.getElementById(p.id).querySelector(".ajustes");
+  let n = 0;
+  for (const c of p.ajustes) {
+    const f = caja.querySelector('.fila[data-campo="' + c.campo + '"]'), v = a.cur[c.campo];
+    f.hidden = !visible(c, a.cur);
+    const cambiado = !igual(v, a.orig[c.campo]);
+    if (cambiado && !f.hidden) n++;
+    const chg = f.querySelector(".chg"); chg.hidden = !cambiado;
+    if (cambiado) chg.textContent = "cambiado · antes: " + mostrado(c, a.orig[c.campo]);
+    f.querySelectorAll("input").forEach(i => {
+      if (document.activeElement !== i) i.value = c.tipo === "texto" ? v : c.tipo === "segundos" ? v.toFixed(1).replace(".", ",") : String(Math.round(v));
+    });
+    f.querySelectorAll(".opc button").forEach(b => b.setAttribute("aria-pressed", String(b.textContent === v)));
+  }
+  const pendiente = norm(cambiosDe(p)) !== norm(a.guardado);
+  caja.querySelector(".n-aj").textContent = !n && !pendiente ? "Sin cambios"
+    : !n ? "Sin ajustes: pulsa Guardar para quitar los guardados"
+    : n + (n === 1 ? " ajuste" : " ajustes") + (pendiente ? " sin guardar" : n === 1 ? " guardado" : " guardados");
+  caja.querySelector(".guardar-aj").disabled = !db || !pendiente;
+  caja.querySelector(".restablecer").disabled = !db || (!n && !pendiente);
+}
+
+const colaAj = {};
+async function guardarAjustes(p) {
+  const a = ajus[p.id], nota = document.getElementById(p.id).querySelector(".guardado-aj");
+  if (!db) { nota.textContent = "Sin guardar: esta vista no tiene acceso a los datos."; return; }
+  const cambios = cambiosDe(p), hay = Object.keys(cambios).length > 0;
+  colaAj[p.id] = (colaAj[p.id] || Promise.resolve()).then(async () => {
+    nota.textContent = "Guardando…";
+    try {
+      const ref = db.doc("ajustes/" + V + "-" + p.id);
+      if (hay) await ref.set({ pieza: p.id, clip: p.clip, version: V, cambios, actualizado: new Date().toISOString() });
+      else await ref.delete();
+      a.guardado = cambios;
+      nota.textContent = hay ? "Guardado. Se aplican cuando le digas «revisada» a Claude." : "Sin ajustes";
+      if (hay && estado[p.id].estado !== "cambios") { estado[p.id].estado = "cambios"; pintar(p.id); guardar(p); }   // un ajuste es un cambio
+      pintarAjustes(p);
+    } catch (e) {
+      nota.textContent = "No se pudo guardar (" + (e && e.code || "error") + "). Vuelve a intentarlo.";
+    }
+  });
+}
+
+function recibirAjustes(snap) {   // lo guardado en la base manda, salvo que estés editando esa pieza sin guardar
+  for (const ch of snap.docChanges()) {
+    const x = ch.doc.data(), p = x && D.piezas.find(q => q.id === x.pieza);
+    if (!p || !ajus[p.id]) continue;
+    const a = ajus[p.id], limpio = norm(cambiosDe(p)) === norm(a.guardado);
+    a.guardado = ch.type === "removed" ? {} : (x.cambios || {});
+    if (limpio) a.cur = { ...a.orig, ...a.guardado };
+    pintarAjustes(p);
+  }
+}
+
+const cola = {};
+async function guardar(p) {
+  const nota = document.getElementById(p.id).querySelector(".guardado");
+  if (!db) { nota.textContent = "Sin guardar: esta vista no tiene acceso a los datos."; return; }
+  cola[p.id] = (cola[p.id] || Promise.resolve()).then(async () => {
+    nota.textContent = "Guardando…";
+    try {
+      await db.doc("marcas/" + V + "-" + p.id).set({
+        pieza: p.id, clip: p.clip, version: V, t: p.t, titulo: p.titulo,
+        estado: estado[p.id].estado, comentario: estado[p.id].comentario, actualizado: new Date().toISOString(),
+      });
+      nota.textContent = "Guardado";
+    } catch (e) {
+      nota.textContent = "No se pudo guardar (" + (e && e.code || "error") + "). Vuelve a intentarlo.";
+    }
+  });
+}
+
+// --- Notas por segundo: «notas/<versión>-<id>» con el segundo exacto y la pieza que estaba en pantalla ---
+const notas = {};    // id → {t, pieza, texto, ...}
+const dlg = $("#dlg-nota");
+let notaT = 0;
+const tcd = s => { s = Math.max(0, s); const d = Math.floor(s * 10) / 10; return String(Math.floor(d / 60)).padStart(2, "0") + ":" + (d % 60).toFixed(1).padStart(4, "0").replace(".", ","); };
+// si se pisan varias piezas, la que entró la última: es la que acaba de aparecer en pantalla
+function piezaEn(t) { return D.piezas.filter(p => !p.texto && t >= p.t && t <= p.t + p.dur).sort((a, b) => b.t - a.t)[0] || null; }
+
+$("#nota-btn").addEventListener("click", () => {
+  if (!db) return;
+  video.pause();
+  notaT = Math.min(D.duracion, video.currentTime);
+  const p = piezaEn(notaT);
+  const donde = $("#dlg-donde"); donde.textContent = "Nota en ";
+  const b = document.createElement("b"); b.textContent = tcd(notaT); donde.append(b);
+  donde.append(p ? " · pieza " + p.id.slice(1) + " · " + p.titulo : " · sin pieza en ese segundo");
+  $("#nota-txt").value = ""; $("#nota-err").textContent = ""; $("#nota-guardar").disabled = false;
+  dlg.showModal();
+  $("#nota-txt").focus();
+});
+$("#nota-cancelar").addEventListener("click", () => dlg.close());
+$("#form-nota").addEventListener("submit", async e => {
+  e.preventDefault();
+  const texto = $("#nota-txt").value.trim();
+  if (!texto) { $("#nota-err").textContent = "Escribe qué pasa en este segundo."; return; }
+  const p = piezaEn(notaT), id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const nota = { version: V, t: Math.round(notaT * 100) / 100, pieza: p ? p.id : null, clip: p ? p.clip : null,
+                 titulo: p ? p.titulo : null, texto, creada: new Date().toISOString() };
+  $("#nota-guardar").disabled = true; $("#nota-err").textContent = "";
+  try {
+    await db.doc("notas/" + V + "-" + id).set(nota);
+    notas[V + "-" + id] = nota; pintarNotas();
+    dlg.close();
+  } catch (err) {
+    $("#nota-err").textContent = "No se pudo guardar (" + (err && err.code || "error") + "). Vuelve a intentarlo.";
+    $("#nota-guardar").disabled = false;
+  }
+});
+
+function filaNota(id, n) {
+  const f = document.createElement("div"); f.className = "nota";
+  const ir = document.createElement("button"); ir.type = "button"; ir.className = "ir-nota"; ir.textContent = "▶ " + tcd(n.t);
+  ir.setAttribute("aria-label", "Ver el vídeo en " + tcd(n.t));
+  ir.addEventListener("click", () => { video.currentTime = Math.max(0, n.t - 1); video.play().catch(() => {}); });
+  const cuerpo = document.createElement("div");
+  const txt = document.createElement("p"); txt.className = "txt"; txt.textContent = n.texto;
+  const de = document.createElement("span"); de.className = "de"; de.textContent = n.pieza ? "Pieza " + n.pieza.slice(1) + " · " + (n.titulo || "") : "Sin pieza en ese segundo";
+  cuerpo.append(txt, de);
+  const bo = document.createElement("button"); bo.type = "button"; bo.className = "borrar"; bo.textContent = "Borrar";
+  bo.setAttribute("aria-label", "Borrar la nota de " + tcd(n.t));
+  bo.disabled = !db;
+  bo.addEventListener("click", async () => {
+    bo.disabled = true;
+    try { await db.doc("notas/" + id).delete(); delete notas[id]; pintarNotas(); }
+    catch (err) { bo.disabled = false; bo.textContent = "No se pudo"; }
+  });
+  f.append(ir, cuerpo, bo);
+  return f;
+}
+
+function pintarNotas() {
+  const orden = Object.entries(notas).sort((a, b) => a[1].t - b[1].t);
+  const caja = $("#notas");
+  caja.querySelectorAll(".nota").forEach(x => x.remove());
+  $("#notas-vacio").hidden = orden.length > 0;
+  caja.querySelector("h2").textContent = orden.length ? "Tus notas en el vídeo (" + orden.length + ")" : "Tus notas en el vídeo";
+  for (const [id, n] of orden) caja.append(filaNota(id, n));
+  document.querySelectorAll(".notas-pieza").forEach(x => { x.querySelectorAll(".nota").forEach(y => y.remove()); x.hidden = true; });
+  for (const [id, n] of orden) {
+    const el = n.pieza && document.getElementById(n.pieza); if (!el) continue;
+    const np = el.querySelector(".notas-pieza"); np.hidden = false; np.append(filaNota(id, n));
+  }
+  linea.querySelectorAll(".nmarca").forEach(x => x.remove());
+  for (const [, n] of orden) {
+    const m = document.createElement("button"); m.type = "button"; m.className = "nmarca";
+    m.style.left = (100 * Math.min(n.t, D.duracion) / D.duracion) + "%";
+    m.setAttribute("aria-label", "Nota en " + tcd(n.t) + ": " + n.texto); m.title = tcd(n.t) + " · " + n.texto;
+    m.addEventListener("click", e => { e.stopPropagation(); video.currentTime = Math.max(0, n.t - 1); video.play().catch(() => {}); });
+    linea.append(m);
+  }
+}
+
+$("#terminar").addEventListener("click", async () => {
+  if (!db) return;
+  const b = $("#terminar"); b.disabled = true;
+  try {
+    const vals = Object.values(estado);
+    await db.doc("envios/" + V).set({ version: V, terminado: new Date().toISOString(),
+      aprobadas: vals.filter(x => x.estado === "aprobado").length, cambios: vals.filter(x => x.estado === "cambios").length,
+      ajustes: Object.values(ajus).filter(a => Object.keys(a.guardado).length).length, notas: Object.keys(notas).length });
+    $("#fin-msg").textContent = "Listo. Dile a Claude en el chat «revisada» y aplica tus cambios.";
+  } catch (e) {
+    $("#fin-msg").textContent = "No se pudo guardar. Vuelve a pulsar.";
+  }
+  b.disabled = false;
+});
+
+(async () => {
+  db = window.claude ? await window.claude.use("db") : null;
+  if (!db) {
+    $("#aviso-db").hidden = false;
+    document.querySelectorAll(".veredicto button, textarea, #terminar, .ajustes input, .ajustes button, #nota-btn").forEach(x => x.disabled = true);
+    return;
+  }
+  db.collection("notas").where("version", "==", V).onSnapshot(snap => {
+    for (const k of Object.keys(notas)) delete notas[k];
+    for (const d of snap.docs) { const x = d.data(); if (x && typeof x.t === "number") notas[String(d.id).split("/").pop()] = x; }
+    pintarNotas();
+  }, () => {});
+  D.piezas.forEach(p => { if (ajus[p.id]) pintarAjustes(p); });   // ya hay base: se activan «Guardar» y «Restablecer»
+  db.collection("ajustes").where("version", "==", V).onSnapshot(recibirAjustes, () => {});
+  db.collection("marcas").where("version", "==", V).onSnapshot(snap => {
+    for (const d of snap.docs) {
+      const x = d.data(); if (!x || !estado[x.pieza]) continue;
+      estado[x.pieza] = { estado: x.estado || "pendiente", comentario: x.comentario || "" };
+      pintar(x.pieza);
+    }
+  }, () => {});
+})();
+</script>

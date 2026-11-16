@@ -1,0 +1,34 @@
+{
+  "_plantilla": {
+    "receta": "Golpe y cuentas",
+    "modelo": "M2",
+    "cuando": "Desmontar una idea equivocada, con números o un giro",
+    "ejemplo": "subtitulos/recetas/ejemplos/golpe-y-cuentas.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "gancho: la idea equivocada como titular",
+      "impactos: el giro (zoom de golpe + líneas), 1 o 2 como mucho",
+      "golpes: la palabra que desmonta («YA NO», «NO EXISTE»)",
+      "datos: las cuentas, una tarjeta por número dicho",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "golpe",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "gancho": {
+    "hasta_frase": "__FRASE_FIN_DEL_GANCHO__",
+    "antetitulo": "__ANTETITULO__",
+    "antetitulo_t": 0.12,
+    "titular": "__TITULAR__",
+    "acento": "__PALABRAS_EN_AMARILLO__",
+    "etiquetas": []
+  },
+  "golpes": "__GOLPES__",
+  "impactos": "__IMPACTOS__",
+  "chips": "__CHIPS?__",
+  "datos": "__DATOS__",
+  "logos": "__LOGOS?__"
+}

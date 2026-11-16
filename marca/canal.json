@@ -1,0 +1,9 @@
+{
+  "_nota": "Datos de tu canal para la tarjeta de YouTube (efecto E-27). Pon tu foto en marca/tarjetas/avatar-youtube.jpg. Los suscriptores se escriben como YouTube: 39.769 → «39,7 mil».",
+  "youtube": {
+    "usuario": "@tucuenta",
+    "suscriptores": 0,
+    "actualizado": "AAAA-MM-DD",
+    "avatar": "avatar-youtube.jpg"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "_plantilla": {
+    "receta": "Ranking de pie",
+    "modelo": "M3, aspecto «completa»",
+    "cuando": "Ordenar 10 requisitos u opciones; grabado de pie, cuerpo entero, algo a la derecha",
+    "ejemplo": "subtitulos/recetas/ejemplos/ranking-de-pie.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "gancho: «DEL 1 AL 10» o similar",
+      "ranking.items: un elemento por puesto (numero, frase, texto, icono o imagen)",
+      "ranking.centro: el centro_cara en píxeles («540px 760px»)",
+      "ranking.col_t y pulso_1_t: cuándo sale la columna y el pulso del 1",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "palabra (opcional): una de marca/marca.json → palabras; sin ella, sale la de por defecto (o ninguna)",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca (opcional en esta receta)"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "ranking de pie",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE?__",
+  "subtitulos": {
+    "izq": 330,
+    "top": 1170
+  },
+  "gancho": "__GANCHO__",
+  "ranking": {
+    "aspecto": "completa",
+    "cta_y": 240,
+    "cta_x": 330,
+    "cta_w": 700,
+    "col_t": "__SEGUNDO_COLUMNA__",
+    "pulso_1_t": "__SEGUNDO_PULSO_DEL_1__",
+    "cta": {
+      "frase": "comenta la palabra",
+      "palabra": "__PALABRA?__"
+    },
+    "sello": true,
+    "zoom_ritmo": [
+      1.0,
+      1.1
+    ],
+    "centro": "__CENTRO_EN_PX__",
+    "items": "__PUESTOS__"
+  },
+  "impactos": "__IMPACTOS?__",
+  "golpes": "__GOLPES?__",
+  "chips": "__CHIPS?__",
+  "logos": "__LOGOS?__"
+}

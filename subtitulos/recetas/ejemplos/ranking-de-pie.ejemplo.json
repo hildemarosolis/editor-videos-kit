@@ -1,0 +1,158 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "subtitulos": {
+    "izq": 330,
+    "top": 1170
+  },
+  "gancho": {
+    "hasta": 6.6,
+    "antetitulo": "LO QUE TE REVISAN AL ENTRAR",
+    "antetitulo_t": 0.12,
+    "titular": "DEL 1 AL 10",
+    "acento": [
+      "10"
+    ],
+    "etiquetas": []
+  },
+  "ranking": {
+    "cta_y": 240,
+    "col_t": 0.9,
+    "pulso_1_t": 3.58,
+    "items": [
+      {
+        "numero": 5,
+        "frase": "pasaporte vigente",
+        "texto": "Pasaporte vigente",
+        "icono": "pasaporte"
+      },
+      {
+        "numero": 10,
+        "frase": "ir bien vestido",
+        "texto": "Ir bien vestido",
+        "icono": "camisa"
+      },
+      {
+        "numero": 3,
+        "frase": "reserva de alojamiento",
+        "texto": "Reserva de alojamiento",
+        "icono": "cama"
+      },
+      {
+        "numero": 7,
+        "frase": "carta de invitación",
+        "texto": "Carta de invitación",
+        "icono": "sobre"
+      },
+      {
+        "numero": 2,
+        "frase": "pasaje de vuelta",
+        "texto": "Pasaje de vuelta",
+        "icono": "avion"
+      },
+      {
+        "numero": 8,
+        "frase": "seguro de viaje",
+        "texto": "Seguro de viaje",
+        "icono": "escudo"
+      },
+      {
+        "numero": 4,
+        "frase": "dinero para tu estancia",
+        "texto": "Dinero para tu estancia",
+        "icono": "euro"
+      },
+      {
+        "numero": 9,
+        "frase": "visado",
+        "texto": "Visado",
+        "icono": "sello"
+      },
+      {
+        "numero": 6,
+        "frase": "saber explicar tu plan",
+        "texto": "Saber explicar tu plan",
+        "icono": "dialogo"
+      },
+      {
+        "numero": 1,
+        "frase": "que todo sea real",
+        "texto": "Que todo sea real y cuadre",
+        "icono": "check2",
+        "vuela_tras": "tienen que coincidir"
+      }
+    ],
+    "cta": {
+      "frase": "comenta la palabra",
+      "palabra": "GUIA"
+    },
+    "sello": true,
+    "zoom_ritmo": [
+      1.0,
+      1.1
+    ],
+    "centro": "540px 760px",
+    "aspecto": "completa",
+    "cta_x": 330,
+    "cta_w": 700
+  },
+  "impactos": [
+    {
+      "t": 84.12,
+      "dur": 0.95,
+      "zoom": 1.15
+    }
+  ],
+  "centro_cara": [
+    540,
+    760
+  ],
+  "golpes": [
+    {
+      "frase": "ojo",
+      "texto": "¡Ojo!",
+      "dur": 0.9
+    },
+    {
+      "frase": "vencido",
+      "texto": "Vencido",
+      "tachado": true,
+      "dur": 1.2
+    },
+    {
+      "frase": "riesgo",
+      "texto": "Riesgo",
+      "bn": true,
+      "dur": 1.0
+    },
+    {
+      "frase": "no existía",
+      "texto": "No existía",
+      "bn": true,
+      "dur": 1.3
+    }
+  ],
+  "chips": [
+    {
+      "items": [
+        {
+          "frase": "cuba",
+          "texto": "Cuba"
+        },
+        {
+          "frase": "bolivia",
+          "texto": "Bolivia"
+        },
+        {
+          "frase": "república dominicana",
+          "texto": "Rep. Dominicana"
+        },
+        {
+          "frase": "ecuador",
+          "texto": "Ecuador"
+        }
+      ],
+      "queda": 0.3
+    }
+  ],
+  "tema": "Ejemplo Ranking de pie"
+}

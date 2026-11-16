@@ -1,0 +1,33 @@
+{
+  "_plantilla": {
+    "receta": "Gancho titular",
+    "modelo": "M1",
+    "cuando": "Responder una duda o dar un consejo tajante; monólogo",
+    "ejemplo": "subtitulos/recetas/ejemplos/gancho-titular.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "gancho: titular corto que se escribe; hasta_frase = la frase con la que termina el gancho",
+      "golpes: 2-4 palabras gigantes en las frases clave (rojo/tachado/bn)",
+      "chips: opcionales, para listas de países u opciones",
+      "datos: una tarjeta por cada número dicho en voz alta",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "gancho",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "gancho": {
+    "hasta_frase": "__FRASE_FIN_DEL_GANCHO__",
+    "antetitulo": "__ANTETITULO__",
+    "antetitulo_t": 0.12,
+    "titular": "__TITULAR__",
+    "acento": "__PALABRAS_EN_AMARILLO__",
+    "etiquetas": []
+  },
+  "golpes": "__GOLPES__",
+  "chips": "__CHIPS?__",
+  "datos": "__DATOS?__",
+  "logos": "__LOGOS?__"
+}

@@ -1,0 +1,95 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "tema": "Ejemplo Titular detrás",
+  "variante": "titular detrás",
+  "centro_cara": [
+    509,
+    606
+  ],
+  "detras": [
+    {
+      "t": 0.0,
+      "texto": "NO TE|LLEGA",
+      "acento": [
+        "LLEGA"
+      ],
+      "hasta_frase": "cambia tu número",
+      "y": 60,
+      "px": 240
+    },
+    {
+      "frase": "cambia tu número",
+      "texto": "CAMBIA TU|NÚMERO",
+      "acento": [
+        "NÚMERO"
+      ],
+      "hasta_frase": "esto va a evitar",
+      "y": 60,
+      "px": 240
+    },
+    {
+      "frase": "ese número que es",
+      "despues_de": 60,
+      "texto": "+34",
+      "acento": [
+        "+34"
+      ],
+      "dur": 3.2,
+      "y": 80,
+      "px": 400
+    }
+  ],
+  "golpes": [
+    {
+      "frase": "la bendita cita",
+      "texto": "La bendita cita",
+      "dur": 1.4
+    },
+    {
+      "frase": "no va a ser así",
+      "texto": "No te llega",
+      "rojo": true,
+      "dur": 1.3
+    },
+    {
+      "frase": "maleta emocional",
+      "texto": "Maleta emocional",
+      "bn": true,
+      "dur": 1.5
+    }
+  ],
+  "chips": [
+    {
+      "items": [
+        {
+          "frase": "en la resolución",
+          "texto": "Cita en la resolución"
+        },
+        {
+          "frase": "un mensaje de texto",
+          "texto": "Clave por SMS"
+        }
+      ],
+      "despues_de": 30,
+      "queda": 1.5
+    },
+    {
+      "items": [
+        {
+          "frase": "colombia",
+          "texto": "Colombia"
+        },
+        {
+          "frase": "perú",
+          "texto": "Perú"
+        },
+        {
+          "frase": "venezuela",
+          "texto": "Venezuela"
+        }
+      ],
+      "despues_de": 40,
+      "queda": 1.2
+    }
+  ]
+}

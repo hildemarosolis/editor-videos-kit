@@ -1,0 +1,27 @@
+# Tu trabajo y tu ordenador: nada de esto va a git
+editor.json
+/proyectos
+out/
+raw/
+models/
+referencias/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Lo tuyo (fotos, voz) y lo de terceros (capturas de comentarios con nombre y foto)
+marca/fotos/
+marca/voz.md
+marca/tarjetas/*.jpg
+guiones/*/captura-*
+carruseles/*/fotos/*.jpg
+
+# Medios pesados
+*.mp4
+*.mov
+*.MOV
+*.m4a
+*.wav
+!marca/sfx/*.wav
+!marca/sfx/earshot/*.wav

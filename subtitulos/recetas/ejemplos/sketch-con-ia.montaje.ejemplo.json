@@ -1,0 +1,64 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "carpeta": "1 Para editar/PROMO",
+  "salida": "raw/PROMO.mp4",
+  "tramos": [
+    {
+      "archivo": "toma_principal.MOV",
+      "de": 0.0,
+      "a": 2.25
+    },
+    {
+      "archivo": "plano_ia_1.mp4",
+      "de": 0.55,
+      "a": 2.42,
+      "entrada": "glitch",
+      "audio": "silencio",
+      "capas": [
+        {
+          "archivo": "toma_principal.MOV",
+          "de": 2.3,
+          "a": 4.17,
+          "en": 0.0,
+          "efecto": "terror"
+        }
+      ]
+    },
+    {
+      "archivo": "plano_ia_1.mp4",
+      "de": 0.0,
+      "a": 4.2
+    },
+    {
+      "archivo": "plano_ia_2.mp4",
+      "de": 0.5,
+      "a": 2.9,
+      "entrada": "glitch",
+      "audio": "silencio",
+      "capas": [
+        {
+          "sonido": "silbido",
+          "en": 0.1
+        }
+      ]
+    },
+    {
+      "archivo": "plano_ia_2.mp4",
+      "de": 3.0,
+      "a": 5.375,
+      "audio": "silencio",
+      "capas": [
+        {
+          "sonido": "impacto",
+          "en": 0.0
+        }
+      ]
+    },
+    {
+      "archivo": "toma_principal.MOV",
+      "de": 9.2,
+      "a": 36.333,
+      "entrada": "glitch"
+    }
+  ]
+}

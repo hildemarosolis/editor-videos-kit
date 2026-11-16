@@ -1,0 +1,72 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "centro_cara": [
+    540,
+    700
+  ],
+  "seguir": false,
+  "comenta": {
+    "palabra": "GUIA"
+  },
+  "subtitulos": {
+    "izq": 170,
+    "top": 1010
+  },
+  "ranking": {
+    "aspecto": "top",
+    "total": 5,
+    "prefijo": "puesto",
+    "titulo": "Trabajos mejor pagados que necesitan extranjeros",
+    "titulo_desde": 13.8,
+    "col_t": 13.8,
+    "items": [
+      {
+        "numero": 5,
+        "texto": "Soldador",
+        "icono": "soldadura",
+        "sueldo": [
+          2000,
+          2600
+        ]
+      },
+      {
+        "numero": 4,
+        "texto": "Fontanero",
+        "icono": "fontaneria",
+        "sueldo": [
+          2100,
+          2700
+        ]
+      },
+      {
+        "numero": 3,
+        "texto": "Placas solares",
+        "icono": "solar",
+        "sueldo": [
+          2000,
+          2600
+        ]
+      },
+      {
+        "numero": 2,
+        "texto": "Climatización",
+        "icono": "clima",
+        "sueldo": [
+          2100,
+          2500
+        ]
+      },
+      {
+        "numero": 1,
+        "texto": "Electricista",
+        "icono": "electricidad",
+        "sueldo": [
+          2000,
+          2600
+        ],
+        "vuela_tras": "todos estos trabajos"
+      }
+    ]
+  },
+  "tema": "Ejemplo Top con sueldo"
+}

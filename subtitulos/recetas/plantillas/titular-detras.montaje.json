@@ -1,0 +1,18 @@
+{
+  "_nota": "Arranque al grano: la frase más fuerte primero y, con un glitch, el vídeo desde el principio. «de»/«a» en segundos del corte ya sin silencios.",
+  "carpeta": "out",
+  "salida": "raw/__NOMBRE__.mp4",
+  "tramos": [
+    {
+      "archivo": "__VIDEO___corte_916.mp4",
+      "de": "__INICIO_FRASE_FUERTE__",
+      "a": "__FIN_FRASE_FUERTE__"
+    },
+    {
+      "archivo": "__VIDEO___corte_916.mp4",
+      "de": 0.0,
+      "a": "__DURACION_DEL_CORTE__",
+      "entrada": "glitch"
+    }
+  ]
+}

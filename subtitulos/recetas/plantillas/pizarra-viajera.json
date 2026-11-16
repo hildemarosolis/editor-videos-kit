@@ -1,0 +1,38 @@
+{
+  "_plantilla": {
+    "receta": "Pizarra viajera",
+    "modelo": "M11 mixta",
+    "cuando": "Como la pizarra círculo, pero la cara alterna círculo, franja abajo y pantalla completa",
+    "ejemplo": "subtitulos/recetas/ejemplos/pizarra-viajera.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "pizarra.entrada.frase: el plano completo del principio",
+      "pizarra.escenas: cada una con «cara»: circulo o franja, alternando",
+      "las escenas altas (móvil, títulos con icono) van mejor en círculo",
+      "pizarra.respiros: 2 momentos a pantalla completa",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "pizarra viajera",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "pizarra": {
+    "cara": "circulo",
+    "circulo": {
+      "x": 865,
+      "y": 345,
+      "r": 150,
+      "zoom": "__ZOOM__"
+    },
+    "final_completo": true,
+    "cara_y": 1380,
+    "corte_y": 1100,
+    "entrada": {
+      "frase": "__FRASE_FIN_PLANO_COMPLETO__",
+      "dur": 0.6
+    },
+    "respiros": "__RESPIROS__",
+    "escenas": "__ESCENAS__"
+  }
+}

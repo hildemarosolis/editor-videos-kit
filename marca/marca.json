@@ -1,0 +1,36 @@
+{
+  "_ayuda": "Tu marca. Claude la rellena contigo en la primera sesión (ver INSTALAR.md, paso 6). Las palabras son las de «Comenta X»: pon solo las que tengas montadas en tu herramienta de mensajes automáticos (ManyChat u otra); si no tienes ninguna, deja \"palabras\": {} y usa los cierres sin palabra. Las claves opcionales están explicadas en _claves_opcionales.",
+  "usuario": "tucuenta",
+  "nombre": "Tu nombre",
+  "acento": "#FFC800",
+  "fuente": "Anton",
+  "redes": [
+    "instagram",
+    "tiktok",
+    "youtube",
+    "facebook"
+  ],
+  "palabra_por_defecto": "GUIA",
+  "palabras": {
+    "GUIA": {
+      "aviso": "Te mando la guía",
+      "temas": "cuando ofreces algo concreto (una guía, una plantilla)",
+      "texto": "Comenta **GUIA** y te mando la guía por mensaje."
+    }
+  },
+  "firma": "Tu nombre",
+  "_claves_opcionales": {
+    "firma": "quién firma el cierre de los carruseles (por defecto, tu nombre)",
+    "hashtag_fijo": "un hashtag que va siempre en el caption (p. ej. «#tumarca»)",
+    "nombre_whisper": "cómo escribe whisper tu nombre mal, para corregirlo solo: {\"Marya\": \"María\"}",
+    "correcciones": "otras palabras que whisper escribe mal en tus vídeos: {\"mal\": \"bien\"}",
+    "cuentas_por_outro": "si un outro es de otra cuenta (un podcast), a quién invita a seguir: {\"<texto del nombre del outro>\": \"@cuenta\"}",
+    "palabras.<P>.aviso": "subtítulo corto de la caja «Comenta»",
+    "palabras.<P>.texto": "frase de la pieza final del carrusel, con **PALABRA** en color",
+    "palabras.<P>.promesa / para": "qué recibe quien comenta y para quién es (caption)",
+    "palabras.<P>.dicho": "cómo decirla al grabar (por defecto «Comenta P y revisa tus mensajes»)",
+    "palabras.<P>.verbo": "«Comenta» o «Escribe»",
+    "palabras.<P>.caja": "textos propios de la caja (antetítulo y aviso)",
+    "palabras.<P>.rotacion": "false si no entra en la rotación de cierres (palabras de nicho)"
+  }
+}

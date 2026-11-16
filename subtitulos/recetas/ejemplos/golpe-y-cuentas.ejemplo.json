@@ -1,0 +1,59 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "tema": "Ejemplo Golpe y cuentas",
+  "variante": "golpe",
+  "centro_cara": [
+    449,
+    618
+  ],
+  "gancho": {
+    "hasta_frase": "eres ciudadana española por",
+    "antetitulo": "¿TU PADRE NECESITA 80 AÑOS?",
+    "antetitulo_t": 0.12,
+    "titular": "YA NO",
+    "acento": [
+      "NO"
+    ],
+    "etiquetas": []
+  },
+  "golpes": [
+    {
+      "frase": "más de 80 años",
+      "texto": "80 años",
+      "tachado": true,
+      "dur": 1.6
+    }
+  ],
+  "impactos": [
+    {
+      "frase": "actualmente el tribunal",
+      "dur": 1.0,
+      "zoom": 1.2
+    }
+  ],
+  "chips": [
+    {
+      "items": [
+        {
+          "frase": "acreditando la dependencia",
+          "texto": "1 · Solicitud por dependencia"
+        },
+        {
+          "frase": "vamos a recurrir",
+          "texto": "2 · Recurso si lo niegan"
+        }
+      ],
+      "queda": 3.0
+    }
+  ],
+  "datos": [
+    {
+      "frase": "estos dos procesos",
+      "dur": 2.4,
+      "antetitulo": "CON NOSOTROS",
+      "numero": 2,
+      "cuenta_s": 0.4,
+      "texto": "procesos cubiertos"
+    }
+  ]
+}

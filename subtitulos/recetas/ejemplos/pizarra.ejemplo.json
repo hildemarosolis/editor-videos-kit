@@ -1,0 +1,166 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "tema": "Ejemplo Pizarra",
+  "variante": "pizarra",
+  "centro_cara": [
+    509,
+    606
+  ],
+  "subtitulos": {
+    "top": 880
+  },
+  "comenta": {
+    "y": 520
+  },
+  "pizarra": {
+    "cara_y": 1360,
+    "corte_y": 1100,
+    "entrada": {
+      "frase": "esto te va a ahorrar",
+      "dur": 0.6
+    },
+    "respiros": [
+      {
+        "frase": "pero tú también pon",
+        "dur": 1.6
+      }
+    ],
+    "escenas": [
+      {
+        "tipo": "titulo",
+        "ante": "¿VIENES A ESPAÑA?",
+        "icono": "movil",
+        "titulo": "CAMBIA TU NÚMERO",
+        "acento": [
+          "NÚMERO"
+        ],
+        "sub": "Te ahorra tiempo y dinero",
+        "sub_frase": "tiempo y dinero"
+      },
+      {
+        "tipo": "titulo",
+        "frase": "te voy a decir",
+        "ante": "EN EL DESPACHO",
+        "icono": "carpeta",
+        "titulo": "CASO REAL",
+        "acento": [
+          "REAL"
+        ],
+        "sub": "Nos acaba de pasar",
+        "sub_frase": "nos sucedió"
+      },
+      {
+        "tipo": "lista",
+        "frase": "a una persona se",
+        "titulo": "ESTANCIA POR ESTUDIO",
+        "items": [
+          {
+            "frase": "resolver la estancia",
+            "texto": "Estancia resuelta"
+          },
+          {
+            "frase": "los dolores de",
+            "icono": "huella",
+            "texto": "Dolor de cabeza: la cita de huellas"
+          },
+          {
+            "frase": "viene en la resolución",
+            "icono": "calendario",
+            "texto": "Ahora viene en la resolución",
+            "resalta": true
+          }
+        ]
+      },
+      {
+        "tipo": "movil",
+        "frase": "pero te llega una",
+        "mensajes": [
+          {
+            "tipo": "noti",
+            "frase": "una clave",
+            "app": "Mensajes · ahora",
+            "texto": "Extranjería: su clave para la cita de huellas es 4821",
+            "resalta": [
+              "4821"
+            ]
+          }
+        ],
+        "lado": [
+          {
+            "frase": "colombia",
+            "texto": "+57 COLOMBIA",
+            "tachar_frase": "no va a ser así"
+          },
+          {
+            "frase": "perú",
+            "texto": "+51 PERÚ",
+            "tachar_frase": "no va a ser así"
+          },
+          {
+            "frase": "venezuela",
+            "texto": "+58 VENEZUELA",
+            "tachar_frase": "no va a ser así"
+          }
+        ],
+        "sello": {
+          "frase": "no va a ser así",
+          "texto": "No te llega"
+        }
+      },
+      {
+        "tipo": "campo",
+        "frase": "cuando ingresamos el expediente",
+        "cabecera": "Expediente",
+        "titulo": "Estancia por estudio",
+        "etiqueta": "Teléfono de contacto",
+        "valor": "+34 612 345 678",
+        "valor_frase": "que tú nos proporciones",
+        "ok": "AQUÍ LLEGA LA CLAVE ✓"
+      },
+      {
+        "tipo": "lista",
+        "frase": "te podemos tener",
+        "titulo": "LO QUE HACEMOS NOSOTROS",
+        "items": [
+          {
+            "texto": "Armamos tu expediente",
+            "icono": "carpeta"
+          },
+          {
+            "frase": "una línea telefónica",
+            "icono": "movil",
+            "texto": "Línea nueva al llegar"
+          },
+          {
+            "frase": "todo el proceso",
+            "texto": "Todo el proceso"
+          }
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "frase": "desempaca la maleta",
+        "icono": "maleta",
+        "titulo": "DESEMPACA LA MALETA EMOCIONAL",
+        "acento": [
+          "EMOCIONAL"
+        ],
+        "px": 100
+      },
+      {
+        "tipo": "numero",
+        "frase": "ese número que es",
+        "ante": "TU NÚMERO DE ESPAÑA",
+        "numero": "+34",
+        "numero_frase": "de españa",
+        "texto": "Para todos tus procesos"
+      },
+      {
+        "tipo": "curva",
+        "frase": "y si quieres hacer",
+        "titulo": "UN PROCESO POSITIVO",
+        "frase_sube": "realmente positivo"
+      }
+    ]
+  }
+}

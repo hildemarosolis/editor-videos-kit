@@ -1,0 +1,221 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "tema": "Ejemplo Pizarra círculo",
+  "variante": "pizarra círculo",
+  "centro_cara": [
+    560,
+    440
+  ],
+  "subtitulos": {
+    "top": 1220
+  },
+  "pizarra": {
+    "cara": "circulo",
+    "circulo": {
+      "x": 865,
+      "y": 345,
+      "r": 150,
+      "zoom": 0.72
+    },
+    "final_completo": true,
+    "respiros": [
+      {
+        "frase": "es solamente saber",
+        "dur": 4.6
+      }
+    ],
+    "escenas": [
+      {
+        "tipo": "movil",
+        "seccion": "LA PREGUNTA",
+        "mensajes": [
+          {
+            "frase": "habrá alguna posibilidad",
+            "texto": "¿Habrá alguna posibilidad de hacerme papeles aquí en Madrid?"
+          },
+          {
+            "frase": "es que tengo",
+            "texto": "Tengo 6 meses y me piden permiso de trabajo"
+          },
+          {
+            "frase": "yo no me quiero",
+            "texto": "No me quiero regresar a Venezuela 😔"
+          },
+          {
+            "frase": "aguantar dos años",
+            "texto": "¿Aguantar 2 años para un arraigo?"
+          }
+        ],
+        "lado": [
+          {
+            "frase": "seis meses",
+            "icono": "calendario",
+            "texto": "6 MESES"
+          },
+          {
+            "frase": "yo no lo tengo",
+            "icono": "x",
+            "texto": "SIN PERMISO"
+          },
+          {
+            "frase": "aguantar dos años",
+            "icono": "reloj",
+            "texto": "¿2 AÑOS?"
+          }
+        ]
+      },
+      {
+        "tipo": "titulo",
+        "frase": "no se trata de aguantar",
+        "seccion": "LA RESPUESTA",
+        "ante": "NO SE TRATA DE AGUANTAR",
+        "icono": "subida",
+        "titulo": "VIVE EL PROCESO",
+        "acento": [
+          "PROCESO"
+        ],
+        "sub": "Pero sin plan se complica",
+        "sub_frase": "no viniste con una"
+      },
+      {
+        "tipo": "diagrama",
+        "frase": "tú sabías que",
+        "seccion": "LO QUE PASÓ",
+        "alto": 600,
+        "nodos": [
+          {
+            "id": "llega",
+            "texto": "Llegas a España",
+            "icono": "avion"
+          },
+          {
+            "id": "d30",
+            "texto": "30 días",
+            "sub": "Sin pedir la estancia por estudio",
+            "icono": "calendario",
+            "padre": "llega",
+            "frase": "30 días"
+          },
+          {
+            "id": "irr",
+            "texto": "Irregular",
+            "sub": "Sin papeles",
+            "icono": "alerta",
+            "padre": "d30",
+            "frase": "de forma irregular",
+            "resalta": true
+          }
+        ]
+      },
+      {
+        "tipo": "numero",
+        "frase": "más del 90",
+        "seccion": "NO ERES LA ÚNICA",
+        "ante": "LLEGAN ASÍ",
+        "numero": "+90 %",
+        "numero_frase": "más del 90",
+        "texto": "De los que llegan a España"
+      },
+      {
+        "tipo": "diagrama",
+        "frase": "por eso la ley",
+        "seccion": "LA SALIDA",
+        "alto": 600,
+        "nodos": [
+          {
+            "id": "dos",
+            "texto": "2 años",
+            "sub": "En situación irregular",
+            "icono": "reloj",
+            "frase": "dos años en"
+          },
+          {
+            "id": "arr",
+            "texto": "Arraigo",
+            "icono": "sello",
+            "padre": "dos",
+            "frase": "puede hacer un arraigo"
+          },
+          {
+            "id": "soc",
+            "texto": "Socioformativo",
+            "sub": "Con un curso",
+            "icono": "check",
+            "padre": "arr",
+            "frase": "socio-formativo o"
+          },
+          {
+            "id": "lab",
+            "texto": "Sociolaboral",
+            "sub": "Con contrato",
+            "icono": "carpeta",
+            "padre": "arr",
+            "frase": "socio-laboral"
+          }
+        ],
+        "activo": [
+          {
+            "nodo": "lab",
+            "frase": "si alguien te da"
+          },
+          {
+            "nodo": "soc",
+            "frase": "me gusta muchísimo"
+          }
+        ]
+      },
+      {
+        "tipo": "lista",
+        "frase": "te vas a inscribir",
+        "seccion": "EL CURSO",
+        "items": [
+          {
+            "frase": "te vas a inscribir",
+            "icono": "persona",
+            "texto": "Te inscribes en el SEPE"
+          },
+          {
+            "frase": "curso te va",
+            "icono": "check",
+            "texto": "Curso gratis y público"
+          },
+          {
+            "frase": "lo pagamos",
+            "icono": "euro",
+            "texto": "Lo pagamos entre todos",
+            "resalta": true
+          }
+        ]
+      },
+      {
+        "tipo": "diagrama",
+        "frase": "y tú me puedes",
+        "seccion": "EL PLAN",
+        "alto": 600,
+        "nodos": [
+          {
+            "id": "arr",
+            "texto": "Arraigo",
+            "icono": "sello",
+            "frase": "proceso del arraigo"
+          },
+          {
+            "id": "res",
+            "texto": "Residencia",
+            "icono": "casa",
+            "padre": "arr",
+            "frase": "a una residencia"
+          },
+          {
+            "id": "nac",
+            "texto": "Nacionalidad",
+            "icono": "pasaporte",
+            "padre": "res",
+            "frase": "la nacionalidad",
+            "resalta": true
+          }
+        ]
+      }
+    ]
+  }
+}

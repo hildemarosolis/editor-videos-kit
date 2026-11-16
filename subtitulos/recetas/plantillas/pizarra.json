@@ -1,0 +1,37 @@
+{
+  "_plantilla": {
+    "receta": "Pizarra",
+    "modelo": "M11 franja",
+    "cuando": "Re-editar un monólogo ya grabado: cara abajo, un dibujo por idea arriba",
+    "ejemplo": "subtitulos/recetas/ejemplos/pizarra.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "pizarra.entrada.frase: dónde deja de ser plano completo (2-3 s)",
+      "pizarra.escenas: una por idea (titulo, iconos, lista, movil, campo, numero, curva, diagrama)",
+      "pizarra.respiros: 1-2 momentos emotivos a pantalla completa",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "pizarra",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "subtitulos": {
+    "top": 880
+  },
+  "comenta": {
+    "y": 520
+  },
+  "logos": "__LOGOS?__",
+  "pizarra": {
+    "cara_y": 1360,
+    "corte_y": 1100,
+    "entrada": {
+      "frase": "__FRASE_FIN_PLANO_COMPLETO__",
+      "dur": 0.6
+    },
+    "respiros": "__RESPIROS__",
+    "escenas": "__ESCENAS__"
+  }
+}

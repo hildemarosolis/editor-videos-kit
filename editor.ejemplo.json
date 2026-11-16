@@ -1,0 +1,7 @@
+{
+  "_ayuda": "Copia este archivo como editor.json (no va a git) y ajusta las rutas de tu ordenador. biblioteca_url: la página de la biblioteca de efectos si la publicas (opcional). programa_por_defecto: el id de tu kit de podcast en marca/kits/ si montas episodios largos (opcional).",
+  "carpeta_editor": "~/Editor",
+  "python_opencv": ".venv/bin/python",
+  "biblioteca_url": "",
+  "programa_por_defecto": ""
+}

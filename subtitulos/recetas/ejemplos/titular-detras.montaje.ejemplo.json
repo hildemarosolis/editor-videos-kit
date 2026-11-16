@@ -1,0 +1,18 @@
+{
+  "_ejemplo": "Receta real de un vídeo de prueba, con los datos de su tema (aquí, migración a España). Cópiale la forma, no el contenido.",
+  "carpeta": "~/EDITOR/out",
+  "salida": "raw/VIDEO_V3.mp4",
+  "tramos": [
+    {
+      "archivo": "VIDEO_corte_916.mp4",
+      "de": 40.83,
+      "a": 45.88
+    },
+    {
+      "archivo": "VIDEO_corte_916.mp4",
+      "de": 0.0,
+      "a": 76.93,
+      "entrada": "glitch"
+    }
+  ]
+}

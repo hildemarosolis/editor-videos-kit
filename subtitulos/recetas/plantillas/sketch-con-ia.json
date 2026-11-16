@@ -1,0 +1,28 @@
+{
+  "_plantilla": {
+    "receta": "Sketch con IA",
+    "modelo": "M8",
+    "cuando": "Promo o sketch con planos transformados con IA (con una IA de vídeo)",
+    "ejemplo": "subtitulos/recetas/ejemplos/sketch-con-ia.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "antes: montaje en proyectos/_montajes/<NOMBRE>.json (tramos, glitch, efecto terror) y preparar.py --sin-silencios",
+      "golpes y datos: precios, fechas y frases del chiste",
+      "chips: sedes o ciudades",
+      "seguir/comenta: en false si publica el cliente; si publicas tú, quita las dos líneas",
+      "logos (opcional): si nombras una marca, [{\"frase\": \"nombre de la marca\", \"archivo\": \"logos/<marca>.png\", \"fondo\": \"blanco\"|\"circulo\", \"dur\": 2.6}] con el logo en marca/logos/",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca (opcional en esta receta)"
+    ],
+    "montaje": "subtitulos/recetas/ejemplos/sketch-con-ia.montaje.ejemplo.json"
+  },
+  "tema": "__TEMA__",
+  "variante": "sketch",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE?__",
+  "seguir": false,
+  "comenta": false,
+  "logos": "__LOGOS?__",
+  "golpes": "__GOLPES__",
+  "datos": "__DATOS?__",
+  "chips": "__CHIPS?__"
+}

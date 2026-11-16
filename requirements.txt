@@ -1,0 +1,4 @@
+# Librerías de Python del editor (van en .venv, ver INSTALAR.md)
+opencv-python-headless==5.0.0.93
+pillow>=11
+numpy>=2.0

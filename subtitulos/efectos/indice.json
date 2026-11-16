@@ -1,0 +1,1479 @@
+{
+  "LEEME": "Biblioteca de efectos del editor. Los códigos E-NN son fijos: un efecto nuevo toma el siguiente número y uno retirado se queda con el suyo (\"estado\": \"retirado\"). \"cubre\" son las claves de receta del código que pertenecen a cada efecto; \"usa\" dice cómo se reconoce en una receta. \"videos\" lo rellena `python3 scripts/efectos_indice.py usos`; la comprobación es `python3 scripts/efectos_indice.py comprobar`.",
+  "familias": {
+    "gancho": "Cómo arranca el vídeo",
+    "dato": "Cifras, listas y pruebas",
+    "palabra": "Texto que salta en pantalla",
+    "cara": "Lo que le pasa al plano de la persona",
+    "llamada": "Comenta, sígueme, suscríbete",
+    "marca": "Logos y cierres de marca",
+    "transicion": "Uniones y cambios de color",
+    "formato": "Vídeos con estructura propia",
+    "pizarra": "Pizarra arriba y sus escenas"
+  },
+  "no_efecto": {
+    "centro_cara": "ajuste: dónde está la cara (YuNet)",
+    "tema": "nombre de la entrega",
+    "letra": "letra de la variante",
+    "variante": "nombre de la variante",
+    "video_filtro": "variantes de prueba (color)",
+    "video_zoom": "variantes de prueba (zoom)",
+    "sonidos": "los sonidos van con cada pieza (sfx.py)",
+    "_dir": "interno",
+    "_duracion": "interno",
+    "_seguir": "interno",
+    "_seguir_abajo": "interno: «Sígueme» abajo",
+    "_comenta": "interno",
+    "_arriba": "interno",
+    "_sub_top": "interno",
+    "_ocupado_arriba": "interno",
+    "tipo=publico": "filtro de privacidad de los comentarios, no es pieza",
+    "tipo=noti": "variante interna de la escena «móvil» de la pizarra"
+  },
+  "efectos": [
+    {
+      "codigo": "E-01",
+      "nombre": "Gancho titular",
+      "familia": "gancho",
+      "para_que": "Arrancar con antetítulo y titular que se escribe, etiquetas con icono y corte a la tarjeta de prueba.",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "gancho",
+        "prueba"
+      ],
+      "usa": [
+        {
+          "ruta": "gancho"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-02",
+      "nombre": "Frase cortada con impacto",
+      "familia": "gancho",
+      "para_que": "Arrancar con la frase más fuerte del vídeo cortada en seco, golpe de zoom y boom, y luego el vídeo desde el principio.",
+      "desde": "2026-10-25",
+      "script": "scripts/montaje.py",
+      "cubre": [
+        "entrada=impacto"
+      ],
+      "usa": [
+        {
+          "montaje": "impacto"
+        }
+      ],
+      "estado": "activo",
+      "notas": "Es el gancho que mejor funciona: se propone en todos los vídeos nuevos.",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-03",
+      "nombre": "Titular gigante detrás",
+      "familia": "gancho",
+      "para_que": "La palabra clave («ESPAÑA», «ARRAIGO») enorme detrás de la cabeza.",
+      "desde": "2026-10-22",
+      "script": "scripts/detras.py",
+      "cubre": [
+        "detras"
+      ],
+      "usa": [
+        {
+          "ruta": "detras",
+          "donde": {
+            "tipo": null
+          }
+        }
+      ],
+      "estado": "activo",
+      "notas": "Necesita la silueta (recorte.py).",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-04",
+      "nombre": "Portada de revista",
+      "familia": "gancho",
+      "para_que": "Gancho de noticia: cabecera de revista detrás de la cabeza, número grande y titular.",
+      "desde": "2026-10-25",
+      "script": "scripts/detras.py",
+      "cubre": [
+        "detras.tipo=revista"
+      ],
+      "usa": [
+        {
+          "ruta": "detras",
+          "donde": {
+            "tipo": "revista"
+          }
+        }
+      ],
+      "estado": "activo",
+      "notas": "Necesita la silueta (recorte.py).",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-05",
+      "nombre": "Número que cuenta",
+      "familia": "dato",
+      "para_que": "Cada cifra dicha en voz alta: tarjeta oscura con el número en amarillo que sube hasta su valor (decimales, estrellas, destello).",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "datos",
+        "datos.tipo=numero"
+      ],
+      "usa": [
+        {
+          "ruta": "datos",
+          "donde": {
+            "tipo": null
+          }
+        },
+        {
+          "ruta": "datos",
+          "donde": {
+            "tipo": "numero"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-06",
+      "nombre": "Lista que se marca",
+      "familia": "dato",
+      "para_que": "Requisitos o pasos: una lista que se marca línea a línea con visto, aspa o tachado.",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "datos.tipo=lista"
+      ],
+      "usa": [
+        {
+          "ruta": "datos",
+          "donde": {
+            "tipo": "lista"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-07",
+      "nombre": "Banda de cuentas",
+      "familia": "dato",
+      "para_que": "Hacer una cuenta en voz alta (sueldo menos gastos): las cifras se suman en una banda.",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "datos.tipo=cuentas"
+      ],
+      "usa": [
+        {
+          "ruta": "datos",
+          "donde": {
+            "tipo": "cuentas"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-08",
+      "nombre": "Antes y después a tu espalda",
+      "familia": "dato",
+      "para_que": "Una comparación dicha («3 meses → 48 horas»): el antes se tacha y el después sale grande detrás de los hombros.",
+      "desde": "2026-11-06",
+      "script": "scripts/detras.py",
+      "cubre": [
+        "detras.tipo=comparar"
+      ],
+      "usa": [
+        {
+          "ruta": "detras",
+          "donde": {
+            "tipo": "comparar"
+          }
+        }
+      ],
+      "estado": "activo",
+      "notas": "Necesita la silueta (recorte.py).",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-09",
+      "nombre": "Tarjeta de comentario",
+      "familia": "dato",
+      "para_que": "Responder a un seguidor: su comentario público real, con la foto difuminada y el nombre visible.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "comentarios"
+      ],
+      "usa": [
+        {
+          "ruta": "comentarios"
+        }
+      ],
+      "estado": "activo",
+      "notas": "Solo comentarios públicos; un DM nunca.",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-10",
+      "nombre": "Subtítulos con palabra activa",
+      "familia": "palabra",
+      "para_que": "Base de todos los vídeos: Anton en mayúsculas, contorno negro y la palabra que se dice en amarillo.",
+      "desde": "2026-10-20",
+      "script": "scripts/subtitulos.py",
+      "cubre": [
+        "subtitulos"
+      ],
+      "usa": [
+        {
+          "siempre": true
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-11",
+      "nombre": "Golpe de palabra",
+      "familia": "palabra",
+      "para_que": "Una palabra dicha se vuelve gigante en el sitio de los subtítulos.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "golpes"
+      ],
+      "usa": [
+        {
+          "ruta": "golpes",
+          "donde": {
+            "estilo": null,
+            "tachado": null,
+            "bn": null
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-12",
+      "nombre": "Golpe tachado",
+      "familia": "palabra",
+      "para_que": "Desmentir algo: la palabra gigante en rojo y una raya que la tacha.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "golpes.tachado"
+      ],
+      "usa": [
+        {
+          "ruta": "golpes",
+          "donde": {
+            "tachado": true
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-13",
+      "nombre": "Golpe en blanco y negro",
+      "familia": "palabra",
+      "para_que": "Énfasis máximo: el vídeo pasa a blanco y negro mientras sale la palabra.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "golpes.bn"
+      ],
+      "usa": [
+        {
+          "ruta": "golpes",
+          "donde": {
+            "bn": true
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-14",
+      "nombre": "Golpe alarma",
+      "familia": "palabra",
+      "para_que": "Un error o un peligro: aro rojo que se dibuja, temblor, bordes rojos y zumbido.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "golpes.estilo=alarma"
+      ],
+      "usa": [
+        {
+          "ruta": "golpes",
+          "donde": {
+            "estilo": "alarma"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-15",
+      "nombre": "Golpe magia",
+      "familia": "palabra",
+      "para_que": "Una promesa falsa o algo «mágico»: destellos que estallan, brillo y campanitas.",
+      "desde": "2026-10-31",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "golpes.estilo=magia"
+      ],
+      "usa": [
+        {
+          "ruta": "golpes",
+          "donde": {
+            "estilo": "magia"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-16",
+      "nombre": "Pastillas (chips)",
+      "familia": "palabra",
+      "para_que": "Enumerar países u opciones: una pastilla amarilla por palabra al decirla.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "chips",
+        "chips_y"
+      ],
+      "usa": [
+        {
+          "ruta": "chips"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-17",
+      "nombre": "Lluvia de titulares",
+      "familia": "palabra",
+      "para_que": "Mitos o noticias: titulares de papel con «ÚLTIMA HORA» que caen alrededor sin tapar la cara.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "titulares"
+      ],
+      "usa": [
+        {
+          "ruta": "titulares"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-18",
+      "nombre": "Tarjetas flotantes",
+      "familia": "palabra",
+      "para_que": "Cursos, oficios o etapas: tarjetas con icono que entran girando en 3D y flotan a los lados de la cara.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "flotantes"
+      ],
+      "usa": [
+        {
+          "ruta": "flotantes"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-19",
+      "nombre": "Conversación en chat",
+      "familia": "palabra",
+      "para_que": "Alguien habla fuera de cámara: la charla sale como burbujas de chat.",
+      "desde": "2026-10-31",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "conversacion"
+      ],
+      "usa": [
+        {
+          "ruta": "conversacion"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-20",
+      "nombre": "Pantalla partida",
+      "familia": "palabra",
+      "para_que": "Comparar dos cosas (CIUDAD / PUEBLO): la pantalla se parte en dos con un dibujo en cada mitad.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "partidas"
+      ],
+      "usa": [
+        {
+          "ruta": "partidas"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-21",
+      "nombre": "Golpe de reacción",
+      "familia": "cara",
+      "para_que": "Frase clave: zoom de golpe a la cara con líneas de cómic y temblor.",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "impactos"
+      ],
+      "usa": [
+        {
+          "ruta": "impactos",
+          "donde": {
+            "estilo": null
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-22",
+      "nombre": "Golpe de reacción con ondas",
+      "familia": "cara",
+      "para_que": "Lo mismo sin rayos: ondas que salen de la cara y un destello.",
+      "desde": "2026-10-31",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "impactos.estilo=onda"
+      ],
+      "usa": [
+        {
+          "ruta": "impactos",
+          "donde": {
+            "estilo": "onda"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-23",
+      "nombre": "Zoom lento",
+      "familia": "cara",
+      "para_que": "Un plano quieto que no aburre: acercamiento suave hacia la cara durante todo el vídeo.",
+      "desde": "2026-10-21",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "zoom_lento"
+      ],
+      "usa": [
+        {
+          "ruta": "zoom_lento"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-24",
+      "nombre": "Visor de cámara",
+      "familia": "cara",
+      "para_que": "«Grabado en directo»: esquinas de visor, REC que parpadea, código de tiempo y zoom hacia la cara.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "camara"
+      ],
+      "usa": [
+        {
+          "ruta": "camara"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-25",
+      "nombre": "Dentro del móvil",
+      "familia": "cara",
+      "para_que": "Citar un DM o reforzar «Comenta»: el vídeo entra en un móvil con la interfaz de Reels.",
+      "desde": "2026-10-25",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "movil"
+      ],
+      "usa": [
+        {
+          "ruta": "movil"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-26",
+      "nombre": "Pegatina congelada",
+      "familia": "cara",
+      "para_que": "Presentar una idea nueva («LA TIE»): el plano se congela y sales recortado como pegatina con su etiqueta.",
+      "desde": "2026-11-06",
+      "script": "scripts/pegatina.py",
+      "cubre": [
+        "pegatina"
+      ],
+      "usa": [
+        {
+          "ruta": "pegatina"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-27",
+      "nombre": "Caja «Comenta»",
+      "familia": "llamada",
+      "para_que": "Cierre con palabra: una caja de comentario escribe tu palabra (las de marca/marca.json) + «revisa tus mensajes».",
+      "desde": "2026-10-21",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "comenta",
+        "cierre.tipo=asesoria"
+      ],
+      "usa": [
+        {
+          "auto": "comenta",
+          "salvo": [
+            {
+              "ruta": "comenta",
+              "donde": {
+                "estilo": "notificacion"
+              }
+            },
+            {
+              "ruta": "cierre",
+              "donde": {
+                "tipo": "conversacion"
+              }
+            },
+            {
+              "ruta": "cierre",
+              "donde": {
+                "tipo": "info"
+              }
+            },
+            {
+              "ruta": "cierre",
+              "donde": {
+                "estilo": "notificacion"
+              }
+            },
+            {
+              "ruta": "ranking.cta"
+            }
+          ]
+        }
+      ],
+      "estado": "activo",
+      "notas": "Sale sola en los vídeos de más de 12 s; se quita con \"comenta\": false.",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-28",
+      "nombre": "Notificación de iPhone",
+      "familia": "llamada",
+      "para_que": "La misma llamada como notificación arriba: tu foto, «tucuenta · ahora» y «Comenta PALABRA…».",
+      "desde": "2026-10-31",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "comenta.estilo=notificacion"
+      ],
+      "usa": [
+        {
+          "ruta": "comenta",
+          "donde": {
+            "estilo": "notificacion"
+          }
+        },
+        {
+          "ruta": "cierre",
+          "donde": {
+            "estilo": "notificacion"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-29",
+      "nombre": "Caja «Tu turno»",
+      "familia": "llamada",
+      "para_que": "Cierre sin palabra: TU TURNO + la pregunta + «TE LEO EN LOS COMENTARIOS 👇».",
+      "desde": "2026-11-06",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "cierre",
+        "cierre.tipo=conversacion",
+        "cierre.tipo=info"
+      ],
+      "usa": [
+        {
+          "ruta": "cierre",
+          "donde": {
+            "tipo": "conversacion"
+          }
+        },
+        {
+          "ruta": "cierre",
+          "donde": {
+            "tipo": "info"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-30",
+      "nombre": "Caja «Comenta» del ranking",
+      "familia": "llamada",
+      "para_que": "En los rankings, la caja de comentario que escribe la palabra junto a la lista.",
+      "desde": "2026-10-21",
+      "script": "scripts/ranking.py",
+      "cubre": [
+        "ranking.cta"
+      ],
+      "usa": [
+        {
+          "ruta": "ranking.cta"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-31",
+      "nombre": "Tarjeta «Sígueme»",
+      "familia": "llamada",
+      "para_que": "En todos los vídeos: «SÍGUEME EN @tucuenta» con los iconos de tus redes.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "seguir"
+      ],
+      "usa": [
+        {
+          "auto": "seguir",
+          "salvo": [
+            {
+              "ruta": "outro"
+            }
+          ]
+        }
+      ],
+      "estado": "activo",
+      "notas": "Sale sola al decir «sígueme» o en los últimos 3,5 s; se quita con \"seguir\": false.",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-32",
+      "nombre": "Tarjeta de suscripción a YouTube",
+      "familia": "llamada",
+      "para_que": "Al decir «mi canal de YouTube»: foto, @tucuenta, suscriptores y «Suscribirse» → «¡Suscrito!» (datos en marca/canal.json).",
+      "desde": "2026-10-24",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "tarjetas",
+        "tarjetas.tipo=youtube"
+      ],
+      "usa": [
+        {
+          "ruta": "tarjetas",
+          "donde": {
+            "tipo": "youtube"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-33",
+      "nombre": "Logo al nombrar la marca",
+      "familia": "marca",
+      "para_que": "Al nombrar una marca (tuya o con la que colaboras), su logo sale arriba 2,6 s (logos en marca/logos/).",
+      "desde": "2026-10-20",
+      "script": "scripts/gancho.py",
+      "cubre": [
+        "logos"
+      ],
+      "usa": [
+        {
+          "ruta": "logos"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-34",
+      "nombre": "Outro «episodio completo»",
+      "familia": "marca",
+      "para_que": "Shorts de un vídeo largo: al final, 5 s de «el episodio completo en mi canal» con destello y boom.",
+      "desde": "2026-10-21",
+      "script": "scripts/entregar.py",
+      "cubre": [
+        "outro"
+      ],
+      "usa": [
+        {
+          "ruta": "outro",
+          "contiene": "episodio"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-35",
+      "nombre": "Cierre propio de un programa",
+      "familia": "marca",
+      "para_que": "Shorts de un podcast o programa: su cierre propio en vez de «Comenta» y «Sígueme».",
+      "desde": "2026-11-04",
+      "script": "scripts/entregar.py",
+      "cubre": [
+        "acento"
+      ],
+      "usa": [
+        {
+          "ruta": "outro",
+          "contiene": "cierre"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-36",
+      "nombre": "Entrada glitch",
+      "familia": "transicion",
+      "para_que": "Unir dos tramos con un corte suave de glitch (la versión tranquila de la frase cortada).",
+      "desde": "2026-10-21",
+      "script": "scripts/montaje.py",
+      "cubre": [
+        "entrada=glitch"
+      ],
+      "usa": [
+        {
+          "montaje": "glitch"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-37",
+      "nombre": "Barrido de color",
+      "familia": "transicion",
+      "para_que": "Una vez, al principio: una raya amarilla cruza y deja el vídeo con color de cine (ANTES / DESPUÉS).",
+      "desde": "2026-11-06",
+      "script": "scripts/barrido.py",
+      "cubre": [
+        "barrido",
+        "_grade"
+      ],
+      "usa": [
+        {
+          "ruta": "barrido"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-38",
+      "nombre": "Ranking 1-10 en columna",
+      "familia": "formato",
+      "para_que": "Ordenar requisitos o errores: columna del 10 al 1, icono que vuela a su puesto y sello «N/10».",
+      "desde": "2026-10-21",
+      "script": "scripts/ranking.py",
+      "cubre": [
+        "ranking"
+      ],
+      "usa": [
+        {
+          "ruta": "ranking",
+          "donde": {
+            "aspecto": null
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-39",
+      "nombre": "Ranking a pantalla completa",
+      "familia": "formato",
+      "para_que": "Ranking grabado de pie: números grandes a toda la altura y cada elemento grande en el centro.",
+      "desde": "2026-10-21",
+      "script": "scripts/ranking.py",
+      "cubre": [
+        "ranking.aspecto=completa"
+      ],
+      "usa": [
+        {
+          "ruta": "ranking",
+          "donde": {
+            "aspecto": "completa"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-40",
+      "nombre": "Top con sueldo",
+      "familia": "formato",
+      "para_que": "Top 5 de oficios: «Nº», oficio, sueldo que cuenta y foto o icono, con monedas que se llenan.",
+      "desde": "2026-10-21",
+      "script": "scripts/ranking.py",
+      "cubre": [
+        "ranking.aspecto=top"
+      ],
+      "usa": [
+        {
+          "ruta": "ranking",
+          "donde": {
+            "aspecto": "top"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-41",
+      "nombre": "Ranking por niveles",
+      "familia": "formato",
+      "para_que": "Clasificar países, trámites o herramientas en filas (SÍ/NO, S/A/B) con bandera o logo.",
+      "desde": "2026-11-06",
+      "script": "scripts/niveles.py",
+      "cubre": [
+        "niveles"
+      ],
+      "usa": [
+        {
+          "ruta": "niveles"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-42",
+      "nombre": "Esto o aquello",
+      "familia": "formato",
+      "para_que": "Preguntas rápidas A/B: dos opciones y la que gana crece en amarillo.",
+      "desde": "2026-10-20",
+      "script": "scripts/efectos.py",
+      "cubre": [
+        "opciones",
+        "opciones_y"
+      ],
+      "usa": [
+        {
+          "ruta": "opciones"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-43",
+      "nombre": "Ruta en un mapa",
+      "familia": "formato",
+      "para_que": "Voz en off sin cara: foto de cada parada arriba y la ruta que se dibuja en el mapa de abajo.",
+      "desde": "2026-11-02",
+      "script": "scripts/ruta.py",
+      "cubre": [
+        "ruta"
+      ],
+      "usa": [
+        {
+          "proyecto": "ruta"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-44",
+      "nombre": "Carrusel animado",
+      "familia": "formato",
+      "para_que": "Instagram de deslizar: portada y piezas de 7 s en bucle (campo, checks, calendario, contador, precio…).",
+      "desde": "2026-10-24",
+      "script": "scripts/carrusel.py",
+      "cubre": [
+        "carrusel",
+        "carrusel.bloque=campo",
+        "carrusel.bloque=checks",
+        "carrusel.bloque=contador",
+        "carrusel.bloque=precio",
+        "carrusel.bloque=documento",
+        "carrusel.bloque=tarjeta",
+        "carrusel.bloque=calendario",
+        "carrusel.bloque=huella",
+        "carrusel.bloque=estado"
+      ],
+      "usa": [
+        {
+          "proyecto": "carrusel"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-45",
+      "nombre": "Pizarra con la cara abajo",
+      "familia": "pizarra",
+      "para_que": "Monólogo o vídeo ya publicado: la cara baja a una franja y arriba se dibuja lo que se dice.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra",
+        "pizarra.cara=franja"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra",
+          "donde": {
+            "cara": null
+          }
+        },
+        {
+          "ruta": "pizarra",
+          "donde": {
+            "cara": "franja"
+          }
+        },
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "cara": "franja"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-46",
+      "nombre": "Pizarra con la cara en círculo",
+      "familia": "pizarra",
+      "para_que": "Explicar un proceso: la cara en un círculo arriba a la derecha y la pizarra hace el resto.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.cara=circulo"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra",
+          "donde": {
+            "cara": "circulo"
+          }
+        },
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "cara": "circulo"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-47",
+      "nombre": "Pizarra · Título",
+      "familia": "pizarra",
+      "para_que": "Abrir una idea con una frase grande en la pizarra.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=titulo"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "titulo"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-48",
+      "nombre": "Pizarra · Iconos",
+      "familia": "pizarra",
+      "para_que": "Dos o tres conceptos con su icono, que entran escalonados.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=iconos"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "iconos"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-49",
+      "nombre": "Pizarra · Lista",
+      "familia": "pizarra",
+      "para_que": "Pasos o requisitos que se van marcando.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=lista"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "lista"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-50",
+      "nombre": "Pizarra · Móvil con mensajes",
+      "familia": "pizarra",
+      "para_que": "Una notificación o un chat dentro de un móvil dibujado.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=movil"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "movil"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-51",
+      "nombre": "Pizarra · Campo que se escribe",
+      "familia": "pizarra",
+      "para_que": "Un formulario o buscador que se rellena solo.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=campo"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "campo"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-52",
+      "nombre": "Pizarra · Número",
+      "familia": "pizarra",
+      "para_que": "Una cifra protagonista que sube en la pizarra.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=numero"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "numero"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-53",
+      "nombre": "Pizarra · Curva",
+      "familia": "pizarra",
+      "para_que": "Algo que crece o cae: una línea que se dibuja.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=curva"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "curva"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-54",
+      "nombre": "Pizarra · Diagrama",
+      "familia": "pizarra",
+      "para_que": "Organigrama o proceso que se arma nodo a nodo.",
+      "desde": "2026-10-22",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=diagrama"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "diagrama"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-55",
+      "nombre": "Pizarra · La evolución",
+      "familia": "pizarra",
+      "para_que": "Seguidores por red que suben, un móvil con vídeos de cada época y comentarios.",
+      "desde": "2026-10-24",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=evolucion"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "evolucion"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-56",
+      "nombre": "Pizarra · Mapa de España",
+      "familia": "pizarra",
+      "para_que": "España que se dibuja y un punto por cada sitio, con su contador.",
+      "desde": "2026-10-25",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=mapa"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "mapa"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-57",
+      "nombre": "Pizarra · Balanza",
+      "familia": "pizarra",
+      "para_que": "Dos cosas que se equilibran hasta que todo se viene abajo.",
+      "desde": "2026-10-25",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=balanza"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "balanza"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-58",
+      "nombre": "Pizarra · Captura de web oficial",
+      "familia": "pizarra",
+      "para_que": "La web oficial de verdad: baja hasta la línea que importa y la resalta.",
+      "desde": "2026-11-04",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=captura"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "captura"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-59",
+      "nombre": "Pizarra · Bicicleta de dos ruedas",
+      "familia": "pizarra",
+      "para_que": "Migrar como una bici (papeles y trabajo): una rueda falla y la bici se cae.",
+      "desde": "2026-11-05",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=bicicleta"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "bicicleta"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-60",
+      "nombre": "Pizarra · Hemiciclo de escaños",
+      "familia": "pizarra",
+      "para_que": "Votaciones o partidos: un hemiciclo de 350 escaños que se llena con sus cifras.",
+      "desde": "2026-11-05",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=escanos"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "escanos"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-61",
+      "nombre": "Marca de agua con tu @",
+      "familia": "marca",
+      "para_que": "Tu @ en gris translúcido justo encima de los subtítulos, todo el vídeo: si lo descargan y lo vuelven a subir, se sabe de quién es.",
+      "desde": "2026-11-11",
+      "script": "scripts/subtitulos.py",
+      "cubre": [
+        "marca_agua"
+      ],
+      "usa": [
+        {
+          "ruta": "marca_agua"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-62",
+      "nombre": "Frase clave en caja amarilla",
+      "familia": "palabra",
+      "para_que": "La idea clave de la frase en negro sobre una caja amarilla, en vez de la palabra activa: para frases citables de entrevistas.",
+      "desde": "2026-11-11",
+      "script": "scripts/subtitulos.py",
+      "cubre": [],
+      "usa": [
+        {
+          "ruta": "subtitulos.resaltar"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-63",
+      "nombre": "Pizarra · Foto de apoyo con crédito",
+      "familia": "pizarra",
+      "para_que": "Una o varias fotos de internet con licencia libre en un marco que se acerca despacio, con autor y licencia siempre visibles y una pastilla con la idea.",
+      "desde": "2026-11-11",
+      "script": "scripts/pizarra.py",
+      "cubre": [
+        "pizarra.escenas.tipo=foto"
+      ],
+      "usa": [
+        {
+          "ruta": "pizarra.escenas",
+          "donde": {
+            "tipo": "foto"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-64",
+      "nombre": "Prensa · Fotos y titulares con fuente",
+      "familia": "dato",
+      "para_que": "Al nombrar a alguien o algo que salió en prensa: fotos con licencia libre (pie y crédito) y titulares reales con medio y fecha caen arriba como papeles apilados, sin capturas ni fotos de agencia.",
+      "desde": "2026-11-11",
+      "script": "scripts/prensa.py",
+      "cubre": [
+        "prensa"
+      ],
+      "usa": [
+        {
+          "ruta": "prensa"
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    },
+    {
+      "codigo": "E-65",
+      "nombre": "Carrusel · Foto de apoyo con crédito",
+      "familia": "formato",
+      "para_que": "Una foto de licencia libre llena el panel de la pieza, se acerca despacio por detrás de las cifras y lleva siempre su autor y licencia: para que un carrusel de oficios o lugares no sea solo texto.",
+      "desde": "2026-11-15",
+      "script": "scripts/carrusel.py",
+      "cubre": [
+        "carrusel.bloque=foto"
+      ],
+      "usa": [
+        {
+          "ruta": "diapositivas.panel",
+          "donde": {
+            "tipo": "foto"
+          }
+        }
+      ],
+      "estado": "activo",
+      "videos": [],
+      "sin_usar": true
+    }
+  ]
+}

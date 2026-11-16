@@ -1,0 +1,454 @@
+<title>Biblioteca de efectos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Muestrario: rejilla de clips 9:16 como el carrete del móvil; cada ficha con su código E-NN, para qué sirve y dónde salió.
+   Mismos tonos y tipos que la página de revisión (Anton de la marca, Barlow, ámbar #FFC800). */
+:root {
+  --bg: #f3f0e7; --panel: #fffdf8; --line: #ddd7c8; --fg: #17150f; --muted: #6b665a;
+  --accent: #ffc800; --accent-ink: #8a6500; --on-accent: #111; --ok: #1f8a52; --chip: #ebe6d8;
+  --display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11100d; --panel: #1b1a16; --line: #2e2c26; --fg: #f4f1e8; --muted: #a39e90;
+  --accent: #ffc800; --accent-ink: #ffc800; --on-accent: #111; --ok: #3dbb78; --chip: #26241e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11100d; --panel: #1b1a16; --line: #2e2c26; --fg: #f4f1e8; --muted: #a39e90;
+  --accent: #ffc800; --accent-ink: #ffc800; --on-accent: #111; --ok: #3dbb78; --chip: #26241e; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font: 16px/1.45 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px 96px; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { font: 600 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 400 clamp(30px, 7vw, 48px)/1 var(--display); text-transform: uppercase; margin: 0; text-wrap: balance; }
+h1 b { font-weight: 400; color: var(--accent-ink); }
+.intro { margin: 0; max-width: 62ch; color: var(--muted); }
+
+.filtros { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 8px;
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.filtros::-webkit-scrollbar { display: none; }
+.filtros button { flex: 0 0 auto; font: 600 14px/1 var(--body); min-height: 40px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer; white-space: nowrap; }
+.filtros button span { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 4px; }
+.filtros button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.filtros button[aria-pressed="true"] span { color: inherit; opacity: .7; }
+.filtros button.f-eleg[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+.aviso-db { padding: 12px 14px; border-radius: 8px; background: var(--chip); color: var(--fg); font-weight: 500; }
+.rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 18px 14px; }
+@media (max-width: 520px) { .rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 10px; } }
+.ficha { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.clip { position: relative; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 12px; overflow: hidden; background: #000; }
+.clip video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cod { position: absolute; left: 8px; top: 8px; font: 500 12px/1 var(--mono); background: rgb(0 0 0 / .72); color: #ffc800;
+  padding: 6px 8px; border-radius: 6px; font-variant-numeric: tabular-nums; }
+.ficha.elegido .clip { outline: 4px solid var(--accent); outline-offset: -4px; }
+.ficha.elegido .cod { background: #ffc800; color: #111; }
+.ficha h2 { font: 700 17px/1.2 var(--body); margin: 0; text-wrap: balance; }
+.para { margin: 0; font-size: 14px; line-height: 1.4; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 8px; font-size: 12px; color: var(--muted); }
+.meta .fam { font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.uso { font-size: 13px; }
+.uso summary { cursor: pointer; font-weight: 600; color: var(--fg); list-style: none; }
+.uso summary::-webkit-details-marker { display: none; }
+.uso summary::before { content: "▸ "; color: var(--muted); }
+.uso[open] summary::before { content: "▾ "; }
+.uso ul { margin: 6px 0 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
+.uso li { overflow-wrap: anywhere; }
+.uso .pub { color: var(--ok); font-weight: 600; }
+.sin { font-size: 13px; color: var(--muted); font-style: italic; }
+.ya { font-size: 13px; color: var(--ok); font-weight: 600; }
+.quiero { font: 700 14px/1.15 var(--body); min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--accent);
+  background: transparent; color: var(--fg); cursor: pointer; text-align: center; }
+.quiero[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.quiero:disabled { opacity: .45; cursor: default; }
+.nota { display: flex; flex-direction: column; gap: 6px; }
+.nota textarea { font: 16px/1.35 var(--body); min-height: 64px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel);
+  color: var(--fg); padding: 8px; resize: vertical; width: 100%; box-sizing: border-box; }
+.nota .guardado { font-size: 12px; color: var(--muted); min-height: 1em; }
+button:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.barra { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--fg); color: var(--bg);
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.barra b { font: 400 22px/1 var(--display); color: var(--accent); }
+.barra span { font: 500 13px/1.3 var(--mono); overflow-wrap: anywhere; min-width: 0; }
+.vacio { color: var(--muted); grid-column: 1 / -1; }
+[hidden] { display: none !important; }   /* .nota, .barra y .ya tienen display propio */
+
+/* ── Pedido (fase previa de /editor): vídeo → marca → molde → retoques → idea ── */
+.pedido { border: 1px solid var(--line); background: var(--panel); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+.pedido h3 { font: 700 15px/1.2 var(--body); margin: 0; letter-spacing: .02em; }
+.pedido h3 i { font-style: normal; color: var(--accent-ink); font-family: var(--mono); margin-right: 6px; }
+.pedido .ayuda { margin: 0; font-size: 14px; color: var(--muted); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chips button { font: 600 14px/1.15 var(--body); min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--fg); cursor: pointer; text-align: left; }
+.chips button small { display: block; font-weight: 500; font-size: 11px; color: var(--muted); }
+.chips button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chips button[aria-pressed="true"] small { color: inherit; opacity: .75; }
+.nuevo { display: flex; gap: 8px; }
+.nuevo input { flex: 1; min-width: 0; font: 16px/1.2 var(--body); min-height: 44px; padding: 0 12px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+.nuevo button, .listo { font: 700 15px/1 var(--body); min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0;
+  background: var(--accent); color: var(--on-accent); cursor: pointer; }
+.paso { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; }
+.kits { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 8px; }
+.kitb { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px; border-radius: 12px; min-height: 92px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; text-align: left; font: 600 14px/1.2 var(--body); }
+.kitb[aria-pressed="true"] { outline: 3px solid var(--k, var(--accent)); outline-offset: -3px; }
+.kitb .logo { height: 34px; max-width: 100%; display: flex; align-items: center; }
+.kitb .logo img { max-height: 34px; max-width: 120px; object-fit: contain; background: #fff; border-radius: 6px; padding: 2px 4px; }
+.kitb .logo b { font: 400 24px/1 var(--display); color: var(--k, var(--accent)); text-transform: uppercase; }
+.kitb .est { font: 500 11px/1 var(--body); color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.kitb .sw { width: 14px; height: 14px; border-radius: 50%; background: var(--k, var(--accent)); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .25); }
+.kit-info { font-size: 14px; background: var(--chip); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.kit-info .swi { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .25); }
+.kit-info .borr { color: var(--accent-ink); font-weight: 700; }
+.moldes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+@media (max-width: 520px) { .moldes, .kits { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.molde { display: flex; flex-direction: column; gap: 6px; padding: 0; border: 0; background: none; color: var(--fg); cursor: pointer; text-align: left; font: inherit; min-width: 0; }
+.molde .clip { border-radius: 10px; }
+.molde .clip.sinclip { display: flex; align-items: center; justify-content: center; background: var(--chip); color: var(--muted);
+  font: 400 26px/1.05 var(--display); text-transform: uppercase; text-align: center; padding: 10px; }
+.molde b { font: 700 15px/1.2 var(--body); }
+.molde span { font-size: 12px; line-height: 1.3; color: var(--muted); }
+.molde .rec { color: var(--accent-ink); font-weight: 700; }
+.molde[aria-pressed="true"] .clip { outline: 4px solid var(--accent); outline-offset: -4px; }
+.molde[aria-pressed="true"] b::before { content: "✓ "; color: var(--accent-ink); }
+.pedido textarea { font: 16px/1.4 var(--body); min-height: 88px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg);
+  color: var(--fg); padding: 10px; resize: vertical; width: 100%; box-sizing: border-box; }
+.estado-ped { font-size: 13px; color: var(--muted); min-height: 1em; }
+.estado-ped.ok { color: var(--ok); font-weight: 700; }
+.listo[aria-pressed="true"] { background: var(--ok); color: #fff; }
+.ficha.kit-usado .meta::after { content: "usado con esta marca"; color: var(--ok); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Editor de __USUARIO__ · <span id="cuenta"></span></div>
+    <h1>Biblioteca de <b>efectos</b></h1>
+    <p class="intro">Antes de editar: elige el vídeo, su marca, el molde y los retoques, y escribe lo que tienes en la cabeza. Claude arma la receta con eso. Sin pedido abierto, lo que marques queda «para el próximo».</p>
+  </header>
+  <div class="aviso-db" id="aviso-db" hidden>Esta vista no puede guardar lo que eliges. Ábrela en claude.ai con tu cuenta.</div>
+  <section class="pedido" id="pedido" aria-label="Pedido del vídeo">
+    <h3><i>0</i>¿Qué vídeo?</h3>
+    <div class="chips" id="p-videos"></div>
+    <form class="nuevo" id="p-nuevo"><input id="p-nombre" placeholder="Nombre del vídeo, como en «1 Para editar»" autocomplete="off" aria-label="Nombre del vídeo"><button type="submit">Abrir pedido</button></form>
+    <div id="p-cuerpo" hidden>
+      <div class="paso"><h3><i>1</i>¿Para qué marca?</h3><div class="kits" id="kits"></div><div class="kit-info" id="kit-info" hidden></div></div>
+      <div class="paso"><h3><i>2</i>El molde</h3><p class="ayuda">La receta de base. Luego los retoques la cambian a tu gusto.</p><div class="moldes" id="moldes"></div></div>
+      <div class="paso"><h3><i>3</i>Los retoques</h3><p class="ayuda">Toca «Añadir al pedido» en los efectos de abajo. Primero salen los ya usados con esta marca; los que no van con ella no salen.</p></div>
+      <div class="paso"><h3><i>4</i>Lo que tienes en la cabeza</h3>
+        <textarea id="p-idea" placeholder="Cómo lo imaginaste al grabar: qué frase va con qué, qué quieres que se vea…"></textarea>
+        <div class="estado-ped" id="p-guardado"></div>
+        <button type="button" class="listo" id="p-listo" aria-pressed="false">Listo: ya puede editar</button>
+        <div class="estado-ped" id="p-aviso"></div>
+      </div>
+    </div>
+  </section>
+  <nav class="filtros" id="filtros" aria-label="Filtrar por familia"></nav>
+  <main class="rejilla" id="rejilla"></main>
+</div>
+<div class="barra" id="barra" hidden><b id="n-eleg">0</b><span id="lista-eleg"></span></div>
+
+<script>
+const D = __DATOS__;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const elegidos = {};          // codigo → {nota, …} (de la base de datos), solo los que esperan al próximo vídeo
+const usadosEn = {};          // codigo → vídeo donde ya se usó (Claude pone «usado_en» al entregar)
+const pedidos = {};           // id → pedido de un vídeo (colección «pedidos»; lo lee pedido.py)
+const KITS = Object.fromEntries((D.kits || []).map(k => [k.id, k]));
+let filtro = "todas", db = null, activo = null;
+const slug = t => String(t).normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "sin-nombre";
+const mem = { get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } },
+              set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (_) {} } };
+
+$("#cuenta").textContent = `${D.efectos.length} efectos · ${D.efectos.filter(e => e.videos.length).length} ya usados`;
+
+const ped = () => (activo && pedidos[activo]) || null;
+const kitDe = p => KITS[(p && p.marca) || "personal"] || KITS.personal || { id: "personal", nombre: "Marca personal", sin_efectos: [] };
+const enPedido = c => !!(ped() && (ped().efectos || []).some(x => x.codigo === c));
+const usadosMarca = () => new Set(((D.usados || {})[kitDe(ped()).id]) || []);
+const fuera = c => !!ped() && (kitDe(ped()).sin_efectos || []).includes(c);
+
+function pintarFiltros() {
+  const n = f => D.efectos.filter(e => e.familia === f && !fuera(e.codigo)).length;
+  const p = ped();
+  const ne = p ? (p.efectos || []).length : Object.keys(elegidos).length;
+  const bts = [["todas", "Todas", D.efectos.filter(e => !fuera(e.codigo)).length], ["elegidos", p ? "En el pedido" : "Elegidos", ne]];
+  if (p) { const u = usadosMarca(); bts.push(["marca", "Usados con " + kitDe(p).nombre, D.efectos.filter(e => u.has(e.codigo)).length]); }
+  bts.push(...Object.entries(D.familias).filter(([f]) => n(f)).map(([f, t]) => [f, t, n(f)]));
+  if (!bts.some(([f]) => f === filtro)) filtro = "todas";
+  $("#filtros").innerHTML = bts.map(([f, t, c]) =>
+    `<button type="button" id="f-${f}" class="${f === "elegidos" ? "f-eleg" : ""}" data-f="${f}" aria-pressed="${filtro === f}">${esc(t)}<span>${c}</span></button>`).join("");
+}
+$("#filtros").addEventListener("click", ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  filtro = b.dataset.f; pintarFiltros(); aplicarFiltro();
+});
+
+function ficha(e) {
+  const usados = e.videos.length
+    ? `<details class="uso"><summary>Salió en ${e.videos.length} vídeo${e.videos.length > 1 ? "s" : ""}</summary><ul>${
+        e.videos.map(v => `<li>${esc(v.video)}${v.publicado ? ' · <span class="pub">publicado</span>' : ""}</li>`).join("")}</ul></details>`
+    : `<div class="sin">Sin usar todavía</div>`;
+  return `<article class="ficha" id="ficha-${e.codigo}" data-fam="${e.familia}">
+    <div class="clip"><video muted loop playsinline preload="none" poster="posters/${e.codigo}.jpg" data-src="clips/${e.codigo}.mp4" aria-label="${esc(e.nombre)}"></video>
+      <span class="cod">${e.codigo}</span></div>
+    <h2>${esc(e.nombre)}</h2>
+    <p class="para">${esc(e.para_que)}</p>
+    <div class="meta"><span class="fam">${esc(D.familias[e.familia] || e.familia)}</span><span>de ${esc(e.ref)}</span></div>
+    ${usados}
+    <div class="ya" id="ya-${e.codigo}" hidden></div>
+    <button type="button" class="quiero" id="q-${e.codigo}" data-c="${e.codigo}" aria-pressed="false">Lo quiero en el próximo</button>
+    <div class="nota" id="nota-${e.codigo}" hidden>
+      <textarea id="t-${e.codigo}" placeholder="Nota opcional: en qué frase, con qué texto…"></textarea>
+      <div class="guardado" id="g-${e.codigo}"></div>
+    </div>
+  </article>`;
+}
+$("#rejilla").innerHTML = D.efectos.map(ficha).join("") + `<p class="vacio" id="vacio" hidden>Todavía no has elegido ninguno.</p>`;
+
+function aplicarFiltro() {
+  let vis = 0;
+  const p = ped(), u = usadosMarca();
+  for (const e of D.efectos) {
+    const el = document.getElementById("ficha-" + e.codigo);
+    const eleg = p ? enPedido(e.codigo) : !!elegidos[e.codigo];
+    const ok = !fuera(e.codigo) && (filtro === "todas" || (filtro === "elegidos" ? eleg : filtro === "marca" ? u.has(e.codigo) : e.familia === filtro));
+    el.hidden = !ok; vis += ok;
+    const delKit = !!p && u.has(e.codigo);
+    el.classList.toggle("kit-usado", delKit);
+    el.style.order = delKit ? -1 : 0;   // con un pedido, primero lo ya usado con esa marca
+  }
+  $("#vacio").textContent = p ? "Todavía no hay retoques en el pedido." : "Todavía no has elegido ninguno.";
+  $("#vacio").hidden = vis > 0;
+}
+
+// los clips solo se cargan y suenan (mudos) mientras se ven: 60 vídeos a la vez ahogan el iPhone
+const obs = new IntersectionObserver(ents => {
+  for (const en of ents) {
+    const v = en.target;
+    if (en.isIntersecting) {
+      if (!v.src) v.src = v.dataset.src;
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) v.play().catch(() => {});
+    } else v.pause();
+  }
+}, { rootMargin: "200px 0px", threshold: 0.25 });
+const vigilarClips = raiz => {
+  raiz.querySelectorAll(".clip video").forEach(v => obs.observe(v));
+  raiz.querySelectorAll(".ficha .clip").forEach(c => c.addEventListener("click", () => {
+    const v = c.querySelector("video"); if (!v.src) v.src = v.dataset.src; v.paused ? v.play().catch(() => {}) : v.pause();
+  }));
+};
+vigilarClips($("#rejilla"));
+
+function pintarEleccion(c) {
+  const p = ped();
+  const on = p ? enPedido(c) : !!elegidos[c];
+  document.getElementById("ficha-" + c).classList.toggle("elegido", on);
+  const b = document.getElementById("q-" + c);
+  b.setAttribute("aria-pressed", on);
+  b.textContent = p ? (on ? "✓ En el pedido" : "Añadir al pedido")
+                    : on ? "✓ Elegido para el próximo" : usadosEn[c] ? "Lo quiero otra vez" : "Lo quiero en el próximo";
+  const ya = document.getElementById("ya-" + c);
+  ya.hidden = !!p || on || !usadosEn[c]; ya.textContent = usadosEn[c] ? "✓ Ya usado en " + usadosEn[c] : "";
+  document.getElementById("nota-" + c).hidden = !on;
+  const t = document.getElementById("t-" + c);
+  const nota = p ? ((p.efectos || []).find(x => x.codigo === c) || {}).nota : (elegidos[c] || {}).nota;
+  if (on && document.activeElement !== t) t.value = nota || "";
+}
+function pintarBarra() {
+  const p = ped();
+  if (p) {
+    const m = (D.moldes || []).find(x => x.id === p.molde);
+    const n = (p.efectos || []).length;
+    $("#barra").hidden = false;
+    $("#n-eleg").textContent = n;
+    $("#lista-eleg").textContent = `${p.video} · ${kitDe(p).nombre} · ${p.molde === "claude" ? "molde: que lo proponga Claude" : m ? m.nombre : "sin molde"} · ${n} retoque${n === 1 ? "" : "s"}${p.estado === "listo" ? " · LISTO" : ""}`;
+    return;
+  }
+  const cs = Object.keys(elegidos).sort();
+  $("#barra").hidden = !cs.length;
+  $("#n-eleg").textContent = cs.length;
+  $("#lista-eleg").textContent = "Para el próximo: " + cs.join(" · ");
+}
+const repintar = () => { D.efectos.forEach(e => pintarEleccion(e.codigo)); pintarBarra(); pintarFiltros(); aplicarFiltro(); pintarPedido(); };
+
+// ── pedido ──
+async function guardarPedido(cambios, aviso) {
+  const p = ped(); if (!p || !db) return;
+  Object.assign(p, cambios, { actualizado: new Date().toISOString() });
+  if (!("estado" in cambios) && p.estado === "listo") p.estado = "abierto";   // si cambia algo, vuelve a «abierto»
+  try { await db.doc("pedidos/" + activo).set(p); if (aviso) $("#p-guardado").textContent = aviso; }
+  catch (_) { $("#p-guardado").textContent = "No se guardó. Vuelve a intentarlo."; }
+}
+
+function pintarVideos() {
+  const ids = Object.keys(pedidos).filter(id => pedidos[id].estado !== "entregado")
+    .sort((a, b) => String(pedidos[b].actualizado || "").localeCompare(String(pedidos[a].actualizado || "")));
+  const sin = `<button type="button" data-id="" aria-pressed="${!activo}">Sin pedido<small>marcar para el próximo</small></button>`;
+  $("#p-videos").innerHTML = sin + ids.map(id => {
+    const p = pedidos[id];
+    return `<button type="button" data-id="${esc(id)}" aria-pressed="${activo === id}">${esc(p.video)}<small>${esc(kitDe(p).nombre)}${p.estado === "listo" ? " · listo" : ""}</small></button>`;
+  }).join("");
+}
+$("#p-videos").addEventListener("click", ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  activo = b.dataset.id || null; mem.set("pedido-activo", activo);
+  $("#p-guardado").textContent = ""; filtro = "todas"; repintar();
+});
+$("#p-nuevo").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const nombre = $("#p-nombre").value.trim(); if (!nombre || !db) return;
+  const id = slug(nombre);
+  if (!pedidos[id]) {
+    pedidos[id] = { video: nombre, marca: null, molde: null, idea: "", efectos: [], estado: "abierto", creado: new Date().toISOString() };
+  }
+  activo = id; mem.set("pedido-activo", id); $("#p-nombre").value = "";
+  await guardarPedido({}, "Pedido abierto");
+  repintar();
+});
+
+function pintarKits() {
+  const p = ped();
+  $("#kits").innerHTML = (D.kits || []).map(k => {
+    const col = (k.colores || {}).acento || "var(--muted)";
+    const est = k.estado === "aprobado" ? "" : k.estado === "borrador" ? "borrador" : "faltan datos";
+    const logo = k.logo ? `<img src="${esc(k.logo)}" alt="">` : `<b>${esc(k.nombre.split(" ").map(w => w[0]).join("").slice(0, 3))}</b>`;
+    return `<button type="button" class="kitb" data-k="${esc(k.id)}" style="--k:${esc(col)}" aria-pressed="${kitDe(p).id === k.id && !!(p && p.marca || k.id === "personal")}">
+      <span class="logo">${logo}</span>${esc(k.nombre)}<span class="est"><span class="sw"></span>${esc(est || "aprobado")}</span></button>`;
+  }).join("");
+  const k = kitDe(p);
+  $("#kit-info").hidden = !p;
+  $("#kit-info").innerHTML = p ? `<div><b>${esc(k.nombre)}</b> · ${esc(k.publica || "")}</div>
+    <div>Palabra activa en <span class="swi" style="background:${esc((k.colores || {}).acento || "#FFC800")}"></span> ${esc((k.colores || {}).acento || "tu color de acento (faltan sus colores)")}${k.id !== "personal" ? " · en los clips de abajo sale tu color de acento, en el vídeo saldrá este" : ""}</div>
+    <div>Cierres que admite: ${esc((k.cierres || []).join(", ") || "el suyo propio")} (Claude elige el que toque en la rotación)</div>
+    ${k.estado !== "aprobado" ? `<div class="borr">Kit en ${esc(k.estado)}: ${esc(k.notas || "")}</div>` : `<div>${esc(k.notas || "")}</div>`}` : "";
+}
+$("#kits").addEventListener("click", async ev => {
+  const b = ev.target.closest(".kitb"); if (!b || !ped()) return;
+  const k = KITS[b.dataset.k];
+  const efectos = (ped().efectos || []).filter(x => !(k.sin_efectos || []).includes(x.codigo));   // lo que no va con la marca sale del pedido
+  await guardarPedido({ marca: k.id, efectos }, "Marca: " + k.nombre);
+  repintar();
+});
+
+function pintarMoldes() {
+  const p = ped(), k = kitDe(p), rec = new Set(k.moldes || []);
+  const cards = (D.moldes || []).map(m => `<button type="button" class="molde" data-m="${esc(m.id)}" aria-pressed="${!!p && p.molde === m.id}">
+      ${m.clip ? `<span class="clip"><video muted loop playsinline preload="none" poster="moldes/${esc(m.id)}.jpg" data-src="moldes/${esc(m.id)}.mp4" aria-label="${esc(m.nombre)}"></video></span>`
+               : `<span class="clip sinclip">${esc(m.nombre)}</span>`}
+      <b>${esc(m.nombre)}</b><span>${esc(m.cuando)}</span>${rec.has(m.id) ? '<span class="rec">Recomendado para esta marca</span>' : ""}</button>`);
+  cards.push(`<button type="button" class="molde" data-m="claude" aria-pressed="${!!p && p.molde === "claude"}">
+      <span class="clip sinclip">Que lo elija Claude</span><b>Que lo proponga Claude</b><span>Lo recomienda con el catálogo, dentro de la marca</span></button>`);
+  $("#moldes").innerHTML = cards.join("");
+  vigilarClips($("#moldes"));
+}
+$("#moldes").addEventListener("click", async ev => {
+  const b = ev.target.closest(".molde"); if (!b || !ped()) return;
+  const m = b.dataset.m;
+  await guardarPedido({ molde: ped().molde === m ? null : m }, "Molde guardado");
+  repintar();
+});
+
+function pintarPedido() {
+  pintarVideos();
+  const p = ped();
+  $("#p-cuerpo").hidden = !p;
+  if (!p) return;
+  pintarKits(); pintarMoldes();
+  if (document.activeElement !== $("#p-idea")) $("#p-idea").value = p.idea || "";
+  const listo = p.estado === "listo";
+  $("#p-listo").setAttribute("aria-pressed", listo);
+  $("#p-listo").textContent = listo ? "✓ Listo · toca para seguir cambiando" : "Listo: ya puede editar";
+  const falta = [!p.marca && "la marca (si no, va como personal)", !p.molde && "el molde"].filter(Boolean);
+  $("#p-aviso").className = "estado-ped" + (listo ? " ok" : "");
+  $("#p-aviso").textContent = listo ? `Dile a Claude: «edita ${p.video}».` : falta.length ? "Falta: " + falta.join(" y ") + "." : "";
+}
+let tIdea;
+$("#p-idea").addEventListener("input", () => {
+  $("#p-guardado").textContent = "…"; clearTimeout(tIdea);
+  tIdea = setTimeout(() => guardarPedido({ idea: $("#p-idea").value }, "Idea guardada"), 900);
+});
+$("#p-listo").addEventListener("click", async () => {
+  const p = ped(); if (!p) return;
+  await guardarPedido({ estado: p.estado === "listo" ? "abierto" : "listo" }, "");
+  repintar();
+});
+
+// ── elegir efectos (pedido o «para el próximo») ──
+$("#rejilla").addEventListener("click", async ev => {
+  const b = ev.target.closest(".quiero"); if (!b || !db) return;
+  const c = b.dataset.c, e = D.efectos.find(x => x.codigo === c);
+  b.disabled = true;
+  try {
+    const p = ped();
+    if (p) {
+      const efs = (p.efectos || []).slice();
+      const i = efs.findIndex(x => x.codigo === c);
+      if (i >= 0) efs.splice(i, 1); else efs.push({ codigo: c, nombre: e.nombre, nota: "" });
+      await guardarPedido({ efectos: efs }, i >= 0 ? "Quitado del pedido" : "Añadido al pedido");
+    } else if (elegidos[c]) { await db.doc("elegidos/" + c).delete(); delete elegidos[c]; }
+    else {
+      const doc = { codigo: c, nombre: e.nombre, nota: "", elegido: new Date().toISOString() };
+      await db.doc("elegidos/" + c).set(doc); elegidos[c] = doc; delete usadosEn[c];
+    }
+    pintarEleccion(c); pintarBarra(); pintarFiltros();
+  } catch (_) { b.textContent = "No se guardó. Vuelve a pulsar."; }
+  b.disabled = false;
+});
+
+const pendientes = {};
+$("#rejilla").addEventListener("input", ev => {
+  const t = ev.target.closest("textarea"); if (!t || !db) return;
+  const c = t.id.slice(2), g = document.getElementById("g-" + c);
+  g.textContent = "…";
+  clearTimeout(pendientes[c]);
+  pendientes[c] = setTimeout(async () => {
+    try {
+      const p = ped();
+      if (p) {
+        const efs = (p.efectos || []).map(x => x.codigo === c ? { ...x, nota: t.value } : x);
+        await guardarPedido({ efectos: efs });
+      } else { await db.doc("elegidos/" + c).update({ nota: t.value }); if (elegidos[c]) elegidos[c].nota = t.value; }
+      g.textContent = "Nota guardada";
+    } catch (_) { g.textContent = "No se guardó la nota. Escribe otra vez."; }
+  }, 900);
+});
+
+pintarFiltros(); aplicarFiltro(); pintarPedido();
+
+(async () => {
+  db = window.claude ? await window.claude.use("db") : null;
+  if (!db) {
+    $("#aviso-db").hidden = false;
+    document.querySelectorAll(".quiero, #p-nuevo button").forEach(b => b.disabled = true);
+    return;
+  }
+  db.collection("elegidos").onSnapshot(snap => {
+    for (const k of Object.keys(elegidos)) delete elegidos[k];
+    for (const k of Object.keys(usadosEn)) delete usadosEn[k];
+    for (const d of snap.docs) {
+      const x = d.data(); if (!x || !x.codigo) continue;
+      if (x.usado_en) usadosEn[x.codigo] = x.usado_en; else elegidos[x.codigo] = x;
+    }
+    repintar();
+  }, () => { $("#aviso-db").hidden = false; });
+  db.collection("pedidos").onSnapshot(snap => {
+    for (const k of Object.keys(pedidos)) delete pedidos[k];
+    for (const d of snap.docs) { const x = d.data(); if (x && x.video) pedidos[d.id] = x; }
+    if (!activo) { const m = mem.get("pedido-activo"); if (m && pedidos[m]) activo = m; }
+    if (activo && !pedidos[activo]) activo = null;
+    repintar();
+  }, () => { $("#aviso-db").hidden = false; });
+})();
+</script>

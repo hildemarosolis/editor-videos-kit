@@ -1,0 +1,39 @@
+{
+  "_plantilla": {
+    "receta": "Top con sueldo",
+    "modelo": "M3, aspecto «top»",
+    "cuando": "Top 5 de oficios con su sueldo; se dice «puesto cinco…» y «entre X y Y euros»",
+    "ejemplo": "subtitulos/recetas/ejemplos/top-con-sueldo.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "ranking.titulo: el título fijo de arriba",
+      "ranking.items: numero, texto, icono (o imagen) y sueldo [de, a]",
+      "titulo_desde y col_t: cuándo aparecen",
+      "guion: el de guiones/<tu guion>/guion.md si lo hay",
+      "palabra (opcional): una de marca/marca.json → palabras; sin ella, sale la de por defecto (o ninguna)",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca (opcional en esta receta)"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "top con sueldo",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE?__",
+  "seguir": false,
+  "comenta": {
+    "palabra": "__PALABRA?__"
+  },
+  "logos": [],
+  "subtitulos": {
+    "izq": 170,
+    "top": 1010
+  },
+  "ranking": {
+    "aspecto": "top",
+    "total": 5,
+    "prefijo": "puesto",
+    "titulo": "__TITULO__",
+    "titulo_desde": "__SEGUNDO_TITULO__",
+    "col_t": "__SEGUNDO_COLUMNA__",
+    "items": "__PUESTOS__"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "subtitulos-prueba",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "HYPERFRAMES_SKIP_SKILLS=1 npx --yes hyperframes@0.8.78 check",
+    "render": "HYPERFRAMES_SKIP_SKILLS=1 npx --yes hyperframes@0.8.78 render"
+  }
+}

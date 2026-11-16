@@ -1,0 +1,9 @@
+{
+  "_capa": {
+    "nombre": "Episodio completo",
+    "cuando": "Shorts sacados de un vídeo largo: outro de 5 s con destello y boom; sustituye a la tarjeta Sígueme. Graba tu outro («el episodio completo en mi canal…»), déjalo a −14 LUFS en marca/outros/episodio_5s.mp4",
+    "ejemplo_entregado": "shorts de un episodio largo"
+  },
+  "seguir": false,
+  "outro": "marca/outros/episodio_5s.mp4"
+}

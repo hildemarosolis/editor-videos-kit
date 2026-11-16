@@ -1,0 +1,34 @@
+{
+  "_plantilla": {
+    "receta": "Pizarra círculo",
+    "modelo": "M11 círculo",
+    "cuando": "Explicar un proceso: cara en círculo arriba a la derecha, diagramas a toda pantalla",
+    "ejemplo": "subtitulos/recetas/ejemplos/pizarra-circulo.ejemplo.json",
+    "ejemplo_entregado": "receta de ejemplo",
+    "rellenar": [
+      "pizarra.circulo.zoom: que quepa la cabeza entera (0,7-0,9 en plano medio)",
+      "pizarra.escenas: con «seccion» cada una; diagramas para los caminos",
+      "logos: aquí no; si se nombra la marca, va como nodo del diagrama con imagen",
+      "cierre: {\"tipo\": \"conversacion\"|\"info\", \"pregunta\": \"¿…?\", \"frase\": \"dónde la dice\"} o el tipo de una de tus palabras (\"guia\"); `python3 scripts/cierre.py sugerir` dice cuál toca"
+    ]
+  },
+  "tema": "__TEMA__",
+  "variante": "pizarra círculo",
+  "centro_cara": "__CENTRO_CARA__",
+  "cierre": "__CIERRE__",
+  "subtitulos": {
+    "top": 1220
+  },
+  "pizarra": {
+    "cara": "circulo",
+    "circulo": {
+      "x": 865,
+      "y": 345,
+      "r": 150,
+      "zoom": "__ZOOM__"
+    },
+    "final_completo": true,
+    "respiros": "__RESPIROS?__",
+    "escenas": "__ESCENAS__"
+  }
+}
