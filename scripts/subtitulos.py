@@ -354,7 +354,7 @@ def main():
     audio_src = "assets/audio.m4a"
     sys.path.insert(0, str(Path(__file__).parent))
     from plantilla import comprobar  # una receta sacada de plantilla no se monta con huecos sin rellenar
-    comprobar(rcfg | {"_ruta": str(receta)})
+    rcfg = {k: v for k, v in comprobar(rcfg | {"_ruta": str(receta)}).items() if k != "_ruta"}
     sub = rcfg.get("subtitulos", {})
     safe_l, cap_top = sub.get("izq", SAFE_L), sub.get("top", CAP_TOP)
     safe_r = sub.get("der", SAFE_R)  # margen derecho propio (p. ej. cuando la lista del ranking va a la derecha)

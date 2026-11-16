@@ -80,15 +80,18 @@ def comprobar(receta):
     r = json.loads(Path(receta).read_text()) if not isinstance(receta, dict) else receta
     nombre = r.get("_ruta", receta) if isinstance(receta, dict) else receta
     limpia = sin_opcionales(r)
-    if limpia != r:  # los opcionales («__X?__») sin rellenar se quitan, como dice la cabecera
+    if limpia != r:  # los opcionales («__X?__») sin rellenar se quitan del archivo, como dice la cabecera
         quitados = len(huecos(r)) - len(huecos(limpia))
         r = limpia
-        if not isinstance(receta, dict):
-            Path(receta).write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n")
-            print(f"{nombre}: quitados {quitados} huecos opcionales sin rellenar", file=sys.stderr)
+        destino = r.get("_ruta") if isinstance(receta, dict) else receta
+        if destino:
+            Path(destino).write_text(json.dumps({k: v for k, v in r.items() if k != "_ruta"},
+                                                ensure_ascii=False, indent=2) + "\n")
+        print(f"{nombre}: quitados {quitados} huecos opcionales sin rellenar", file=sys.stderr)
     h = huecos(r)
     if h:
         sys.exit(f"{nombre}: faltan {len(h)} huecos de la plantilla por rellenar:\n  " + "\n  ".join(h))
+    return r
 
 
 def rellenar(plant, ejemplo, ruta, dif):

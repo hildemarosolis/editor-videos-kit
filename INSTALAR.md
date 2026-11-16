@@ -154,14 +154,19 @@ Tiene que decir su usuario, su acento, sus palabras, la carpeta de trabajo y «F
 - No usar palabras de «Comenta» que no estén montadas.
 - No tocar la configuración global de Claude sin preguntar.
 
-## 9. Qué funciona en cada sistema
+## 9. Qué está probado
+
+Probado en el kit, en un Mac, desde un clon limpio: instalación, preparar (cortar silencios y transcribir), receta
+«Golpe y cuentas» con una marca distinta (otro usuario, otro color, sin palabras de «Comenta») y muestra final.
+Las demás recetas (pizarras, ranking, top, titular detrás, sketch), el carrusel, la ruta y el reencuadre de entrevistas
+salen de un editor que los usa a diario y sus composiciones son idénticas a las originales, pero dentro del kit todavía
+no se han renderizado de principio a fin.
 
 | Pieza | Mac | Linux / WSL2 |
 |---|---|---|
-| Preparar, cortar silencios, transcribir | ✓ | pendiente de verificar |
+| Instalar, preparar, transcribir, «Golpe y cuentas» y muestra | ✓ probado | pendiente |
 | Paso de HDR del iPhone a SDR | ✓ (VideoToolbox) | pendiente (zscale + tonemap) |
-| Subtítulos, tarjetas, pizarra, carrusel (HyperFrames) | ✓ | pendiente de verificar |
+| Resto de recetas, carrusel, ruta, reencuadre | sin probar en el kit | pendiente |
 | Recortar la foto de la portada (`portada.py`, Vision) | ✓ | no (solo Mac) |
-| Reencuadre de entrevistas horizontales (OpenCV) | ✓ | pendiente de verificar |
 
-Si algo falla fuera del Mac, apúntalo en un issue del repo con el comando y el error.
+Si algo falla, apúntalo en un issue del repo con el comando y el error.

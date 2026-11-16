@@ -49,7 +49,7 @@ def main():
     cfg_path = Path(sys.argv[1])
     cfg = json.loads(cfg_path.read_text())
     from plantilla import comprobar
-    comprobar(cfg | {"_ruta": str(cfg_path)})  # sin huecos de plantilla
+    cfg = {k: v for k, v in comprobar(cfg | {"_ruta": str(cfg_path)}).items() if k != "_ruta"}  # sin huecos de plantilla
     base = Path(cfg["carpeta"]).expanduser()
     sfx.make_sounds(ROOT / "marca/sfx")
     ins, graph, vl, al = [], [], [], []

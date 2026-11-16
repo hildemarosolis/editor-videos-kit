@@ -10,8 +10,8 @@
   "comenta": false,
   "golpes": [
     {
-      "frase": "el cachapazo del más allá",
-      "texto": "El cachapazo del más allá",
+      "frase": "el empanadazo del más allá",
+      "texto": "El empanadazo del más allá",
       "dur": 1.8
     },
     {
@@ -21,17 +21,17 @@
       "dur": 1.0
     },
     {
-      "frase": "sin cachapa",
+      "frase": "sin empanada",
       "texto": "Tu Local",
       "dur": 1.6
     }
   ],
   "datos": [
     {
-      "frase": "cachapas a 5",
+      "frase": "empanadas a 5",
       "antes": 0.05,
       "dur": 2.2,
-      "antetitulo": "CACHAPAS A",
+      "antetitulo": "EMPANADAS A",
       "numero": 5,
       "sufijo": " €",
       "cuenta_s": 0.5,
