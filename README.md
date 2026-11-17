@@ -63,8 +63,8 @@ marca: tu @, tu color, tu fuente, tus redes y tu voz. Después, para cada vídeo
 | | Estado |
 |---|---|
 | Mac con chip Apple | Verificado |
-| Linux | Pendiente de verificar (camino de software) |
-| Windows | Con WSL2 (Ubuntu), pendiente de verificar |
+| Windows 11 | Verificado con WSL2 (Ubuntu) |
+| Linux | Mismos pasos que en WSL; sin probar fuera de Windows |
 
 Si lo pruebas fuera del Mac y algo falla, abre un issue con el comando y el error.
 
