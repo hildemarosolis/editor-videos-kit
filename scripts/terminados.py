@@ -122,6 +122,6 @@ def entregar(src, cfg, receta_path, proyecto, mover=False, fecha=None):
     """Copia (o mueve) el render a su carpeta con su nombre y lo apunta en el registro."""
     PUBLICADOS.mkdir(exist_ok=True)
     dst = destino(cfg, receta_path, fecha)
-    (shutil.move if mover else shutil.copy2)(str(src), dst)
+    kit.copiar(src, dst, mover)  # sin fechas ni permisos: Google Drive visto desde WSL no deja cambiarlos
     registrar(dst, proyecto, receta_path, fecha)
     return dst

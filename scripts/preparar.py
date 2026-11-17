@@ -90,7 +90,7 @@ def main():
          str(d / "assets/audio.m4a")])
     run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(d / "assets/corte.mp4"), "-vn", "-ac", "1",
          "-ar", "16000", str(d / "audio16k.wav")])
-    run(["whisper-cli", "-m", str(ROOT / "models/ggml-large-v3-turbo-q5_0.bin"), "-f", str(d / "audio16k.wav"),
+    run([kit.whisper_cli(), "-m", str(ROOT / "models/ggml-large-v3-turbo-q5_0.bin"), "-f", str(d / "audio16k.wav"),
          "-l", "es", "-bs", "8", "-ml", "1", "-sow", "-oj", "-of", str(d / "palabras")])
     words = json.loads((d / "palabras.json").read_text())["transcription"]
     print(f"{name}: {len([w for w in words if w['text'].strip()])} palabras → {d}")

@@ -26,12 +26,21 @@ Pregúntalo o compruébalo (`uname -a`):
 | Sistema | Estado |
 |---|---|
 | **Mac con chip Apple (M1 o posterior)** | **Verificado.** Todo funciona y usa el chip para el vídeo (VideoToolbox) |
-| **Linux** (Ubuntu 22.04 o posterior) | **Pendiente de verificar.** Usa el camino de software (libx264 y zscale) |
-| **Windows** | **Usa WSL2 con Ubuntu** y sigue los pasos de Linux. Pendiente de verificar |
+| **Windows 11** | **Verificado con WSL2 y Ubuntu 26.04** (17-nov-2026): sigue los pasos de Linux. Camino de software (libx264 y zscale) |
+| **Linux** (Ubuntu 22.04 o posterior) | Los mismos pasos que en WSL; en un Linux sin Windows aún no se ha probado |
 | Mac con Intel | Sin probar; debería ir por el camino de software (`EDITOR_SIN_VT=1`) |
 
-Si es Windows y no tiene WSL2: en PowerShell como administrador, `wsl --install -d Ubuntu`, reinicia y abre «Ubuntu».
-Trabaja siempre **dentro** de WSL (el repo en `~/`, no en `/mnt/c/`: es mucho más lento).
+### Windows: antes de nada
+1. **WSL2 con Ubuntu.** En PowerShell como administrador: `wsl --install -d Ubuntu` y reinicia.
+   - Si dice `ERROR_ALREADY_EXISTS` aunque `wsl --status` diga que no está instalado, Ubuntu ya quedó registrado: sigue al punto 2.
+2. **Abre «Ubuntu» desde el menú Inicio una vez** y deja que la persona cree su usuario y contraseña.
+   Hasta entonces, cualquier `wsl -d Ubuntu -- …` se queda colgado en «Esperando a que se complete el comando OOBE»
+   (si pasa: `wsl --terminate Ubuntu` y abre Ubuntu a mano).
+3. **Trabaja siempre dentro de WSL:** el repo en `~/editor-videos-kit`, no en `/mnt/c/` (es mucho más lento).
+4. **Si usas la app de Claude Code de Windows**, lanza cada comando con una shell de login:
+   `wsl.exe -d Ubuntu -- bash -lc 'cd ~/editor-videos-kit && …'`. Con `bash -s` o sin `-l`, `~/.local/bin` no entra en el PATH.
+   Las comillas anidadas de PowerShell → `wsl` → `bash` fallan: mejor desde Git Bash o con Claude Code instalado dentro de Ubuntu
+   (las dos formas funcionan).
 
 ## 2. Programas
 
@@ -47,9 +56,13 @@ xcode-select --install
 
 ### Linux / WSL2 (Ubuntu)
 ```bash
-sudo apt update && sudo apt install -y ffmpeg python3 python3-venv git cmake build-essential curl
+sudo apt update && sudo apt install -y ffmpeg python3 python3-venv git cmake build-essential curl unzip \
+  libnss3 libnspr4 libasound2t64 libgbm1 fonts-liberation
 ```
-Node 22 o posterior (el de apt suele ser viejo):
+(`unzip` y las librerías de la segunda línea los necesita el Chrome sin ventana de HyperFrames: sin ellos no baja o no arranca.)
+
+Node 22 o posterior. Comprueba qué versión trae apt con `apt-cache policy nodejs`: en Ubuntu 24.04 o posterior suele valer
+(`sudo apt install -y nodejs npm`). Si es más vieja:
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt install -y nodejs
 ```
@@ -60,15 +73,16 @@ git clone --depth 1 https://github.com/ggml-org/whisper.cpp ~/whisper.cpp && cd 
 ```bash
 mkdir -p ~/.local/bin && ln -sf ~/whisper.cpp/build/bin/whisper-cli ~/.local/bin/whisper-cli
 ```
-(Comprueba que `~/.local/bin` está en el PATH: `which whisper-cli`.)
+(Si `which whisper-cli` no lo encuentra, no pasa nada: los scripts lo buscan también en `~/.local/bin`.)
 
 yt-dlp (opcional): `python3 -m pip install --user yt-dlp`.
 
-HyperFrames usa un Chrome sin ventana. En Ubuntu/WSL puede pedir librerías del sistema; si el primer render falla
-diciendo que falta una `.so`, instala: `sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2t64 libpango-1.0-0 libcairo2`.
+HyperFrames usa un Chrome sin ventana. Si aun así el primer render falla diciendo que falta una `.so`
+(`ldd` sobre el ejecutable que nombra el error dice cuál), instala el resto: `sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2t64 libpango-1.0-0 libcairo2`.
 
 ### Versiones con las que está verificado
-FFmpeg 9.0.1 · whisper.cpp 1.9.5 · Node 26.5 · Python 3.9 a 3.15 · HyperFrames 0.8.78.
+- Mac: FFmpeg 9.0.1 · whisper.cpp 1.9.5 · Node 26.5 · Python 3.9 a 3.15 · HyperFrames 0.8.78.
+- Windows (WSL2, Ubuntu 26.04): FFmpeg 8.0.1 · whisper.cpp compilado · Node 22.22 · Python 3.14 · HyperFrames 0.8.78.
 
 ## 3. HyperFrames: no se instala, y tiene una trampa
 
@@ -78,6 +92,7 @@ HYPERFRAMES_SKIP_SKILLS=1 npx --yes hyperframes@0.8.78 --version
 ```
 **Sin `HYPERFRAMES_SKIP_SKILLS=1`, HyperFrames copia 19 skills de terceros a la carpeta global de Claude.**
 Los scripts ya la ponen; tú ponla siempre que lo llames a mano. La primera vez tarda (baja Chrome).
+HyperFrames avisará de que hay una versión más nueva y propondrá `upgrade`: **ignóralo**. El kit está probado con 0.8.78.
 
 ## 4. El repo, Python y los modelos
 
@@ -118,6 +133,19 @@ python3 scripts/kit.py carpetas
 **Trampa de iCloud en Mac:** con «Optimizar almacenamiento» un vídeo puede ser solo un marcador sin descargar.
 Antes de procesarlo: `brctl download <archivo>` y esperar a que tenga su tamaño real.
 
+**Google Drive (u otra unidad) en Windows con WSL:** WSL no ve la unidad `G:` por sí solo.
+```bash
+sudo mkdir -p /mnt/g && sudo mount -t drvfs G: /mnt/g
+```
+```bash
+echo 'G: /mnt/g drvfs defaults,nofail 0 0' | sudo tee -a /etc/fstab
+```
+- La carpeta de trabajo queda en `/mnt/g/Mi unidad/Editor` (ponla así en `editor.json`).
+- Google Drive tiene que estar **abierto en Windows antes de arrancar Ubuntu**. Si no, la carpeta no aparece:
+  ábrelo, `wsl --shutdown` en PowerShell y vuelve a abrir Ubuntu.
+- Con Drive en modo «streaming», marca la carpeta `Editor` como «Disponible sin conexión».
+- Los scripts copian sin fechas ni permisos, que Drive visto desde WSL no deja cambiar.
+
 ## 6. Su marca (la primera conversación)
 
 Hazle estas preguntas, una a una, y rellena `marca/marca.json`:
@@ -125,7 +153,8 @@ Hazle estas preguntas, una a una, y rellena `marca/marca.json`:
 1. **Usuario en redes** (sin @) y **nombre** con el que firma.
 2. **Color de acento**: el color de la palabra que se está diciendo en los subtítulos y de los números de las
    tarjetas. Si tiene portadas, pídele dos o tres capturas y saca el color dominante de sus textos. Por defecto, amarillo `#FFC800`.
-3. **Fuente**: condensada y gruesa, en mayúsculas. Vienen Anton (por defecto), Bebas Neue, Barlow Condensed y Oswald en `marca/fuentes/`.
+3. **Fuente de los subtítulos**: condensada y gruesa, en mayúsculas. Vienen Anton (por defecto), Bebas Neue, Barlow Condensed y Oswald
+   en `marca/fuentes/`; en `marca.json` → `"fuente"` va su nombre tal cual. Los rótulos, tarjetas y carruseles siguen en Anton.
 4. **Redes** donde está (para la tarjeta «Sígueme»): instagram, tiktok, youtube, facebook.
 5. **Palabras de «Comenta X»** (y `palabra_por_defecto`, una de ellas): solo las que ya tenga montadas en una herramienta de mensajes automáticos
    (ManyChat u otra) que responde al comentario y manda un DM. **Si una palabra no está montada, nadie responde**: no la
@@ -162,11 +191,16 @@ Las demás recetas (pizarras, ranking, top, titular detrás, sketch), el carruse
 salen de un editor que los usa a diario y sus composiciones son idénticas a las originales, pero dentro del kit todavía
 no se han renderizado de principio a fin.
 
-| Pieza | Mac | Linux / WSL2 |
+En Windows 11 con WSL2 (17-nov-2026) se instaló desde cero y se entregaron 2 vídeos de verdad con «Pizarra»
+(también se renderizó una muestra de «Gancho titular»), con la carpeta de trabajo en Google Drive.
+
+| Pieza | Mac | Windows (WSL2) |
 |---|---|---|
-| Instalar, preparar, transcribir, «Golpe y cuentas» y muestra | ✓ probado | pendiente |
+| Instalar, preparar y transcribir | ✓ probado | ✓ probado |
+| «Golpe y cuentas» | ✓ probado | sin probar |
+| «Pizarra» y «Gancho titular», con entrega | sin probar en el kit | ✓ probado |
 | Paso de HDR del iPhone a SDR | ✓ (VideoToolbox) | pendiente (zscale + tonemap) |
-| Resto de recetas, carrusel, ruta, reencuadre | sin probar en el kit | pendiente |
+| Resto de recetas, carrusel, ruta, reencuadre | sin probar en el kit | sin probar |
 | Recortar la foto de la portada (`portada.py`, Vision) | ✓ | no (solo Mac) |
 
 Si algo falla, apúntalo en un issue del repo con el comando y el error.

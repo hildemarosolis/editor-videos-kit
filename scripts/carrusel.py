@@ -546,7 +546,7 @@ def entregar(c, base, out, historias=False):
     raiz = dst.with_suffix("").name
     for p in piezas:
         nombre = {"00_portada.png": "00 portada.png", "pie.txt": "pie.txt"}.get(p.name, p.name)
-        shutil.copy2(p, dst.parent / f"{raiz} - {nombre}")
+        kit.copiar(p, dst.parent / f"{raiz} - {nombre}")
     registrar(dst.with_name(f"{raiz} ({len(piezas) - 1} piezas + pie)"), f"carrusel {base.name}", base / "carrusel.json")
     if not c.get(clave):
         letra = raiz.split(" - ")[1][0]

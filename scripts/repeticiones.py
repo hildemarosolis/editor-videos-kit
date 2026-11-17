@@ -20,9 +20,12 @@ import json
 import re
 import subprocess
 import tempfile
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import kit  # noqa: E402
 STOP = {"de", "la", "el", "que", "y", "a", "en", "los", "las", "un", "una", "es", "lo", "por", "con", "se", "no", "te"}
 
 
@@ -35,7 +38,7 @@ def palabras(video):
         wav, js = Path(t) / "a.wav", Path(t) / "a"
         subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(video), "-vn", "-ac", "1",
                         "-ar", "16000", str(wav)], check=True)
-        subprocess.run(["whisper-cli", "-m", str(ROOT / "models/ggml-large-v3-turbo-q5_0.bin"), "-f", str(wav),
+        subprocess.run([kit.whisper_cli(), "-m", str(ROOT / "models/ggml-large-v3-turbo-q5_0.bin"), "-f", str(wav),
                         "-l", "es", "-bs", "8", "-ml", "1", "-sow", "-oj", "-of", str(js)], check=True, capture_output=True)
         segs = json.loads(Path(str(js) + ".json").read_text())["transcription"]
     return [(norm(s["text"]), s["offsets"]["from"] / 1000, s["offsets"]["to"] / 1000, s["text"].strip())

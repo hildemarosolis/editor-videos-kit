@@ -142,7 +142,7 @@ def main():
                   if (v.parent / ".guion").exists() or (v.parent / "Guion.pdf").exists()), None)
         orig = v.parent if v else None
     if orig:
-        shutil.move(str(orig), kit.carpeta("originales") / orig.name)
+        shutil.move(str(orig), kit.carpeta("originales") / orig.name, copy_function=shutil.copyfile)
     print(f"{a.video}: entregado {dst.parent.name}/{dst.name}")
     avisar_efectos(a.video, a.receta)
 
