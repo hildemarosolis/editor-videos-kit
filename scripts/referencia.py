@@ -73,7 +73,7 @@ def procesar(video, ref, fuente, comentario):
     dur = float(run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", video]).stdout or 0)
     wav = REFS / f"{ref}_16k.wav"
     run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", video, "-vn", "-ac", "1", "-ar", "16000", wav])
-    run(["whisper-cli", "-m", MODEL, "-f", wav, "-l", "auto", "-bs", "8", "-oj", "-of", REFS / f"{ref}_frases"])
+    run([kit.whisper_cli(), "-m", MODEL, "-f", wav, "-l", "auto", "-bs", "8", "-oj", "-of", REFS / f"{ref}_frases"])
     frases = REFS / f"{ref}_frases.json"
     lineas = []
     if frases.exists():

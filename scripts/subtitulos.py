@@ -299,6 +299,14 @@ def variant_css(cfg, d):
         out.append(f'      .cap p {{ font-family: "{f["nombre"]}", "Anton", sans-serif; '
                    f'font-size: {f.get("px", FONT_PX)}px; font-weight: {f.get("peso", 400)}; '
                    f'letter-spacing: {f.get("espaciado", "0.01em")}; }}')
+    else:  # sin fuente propia en la receta, la de tu marca (marca.json → "fuente")
+        nombre, archivo, peso = kit.fuente()
+        if nombre != "Anton":
+            import shutil
+            (d / "assets").mkdir(exist_ok=True)
+            shutil.copyfile(archivo, d / "assets" / archivo.name)
+            out.append(f'      @font-face {{ font-family: "{nombre}"; src: url("assets/{archivo.name}"); font-weight: 100 900; }}')
+            out.append(f'      .cap p {{ font-family: "{nombre}", "Anton", sans-serif; font-weight: {peso}; }}')
     return "\n".join(out)
 
 

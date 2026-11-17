@@ -160,7 +160,7 @@ def a_pdf(md, destino, titulo):
                             f"--print-to-pdf={pdf}", f.as_uri()], capture_output=True, text=True, timeout=120)
         if not pdf.exists():
             sys.exit(f"no pude hacer el PDF de {titulo}: {r.stderr[-400:]}")
-        shutil.copy2(pdf, destino)
+        kit.copiar(pdf, destino)
 
 
 def tema_de(carpeta):
@@ -202,7 +202,7 @@ def publicar(nombre):
     if (carpeta / "fuentes.md").exists():
         a_pdf((carpeta / "fuentes.md").read_text(), dst / "Fuentes.pdf", "Fuentes")
     for k, c in enumerate(capturas(carpeta), 1):
-        shutil.copy2(c, dst / f"Comentario {k}{c.suffix.lower()}")
+        kit.copiar(c, dst / f"Comentario {k}{c.suffix.lower()}")
     (dst / MARCA).write_text(carpeta.name + "\n")
     print(f"{nombre} → {dst.relative_to(EDITOR)}/ (Guion.pdf, Fuentes.pdf, {len(capturas(carpeta))} comentario(s))")
     return dst
@@ -235,7 +235,7 @@ def recoger(nombre, archivos):
                                check=True)
         else:
             shutil.copy2(p, dst)
-        shutil.move(str(p), hecho / p.name)
+        kit.copiar(p, hecho / p.name, mover=True)
         print(f"{p.name} → guiones/{nombre}/{dst.name}")
 
 

@@ -184,6 +184,55 @@ def comprobar_ffmpeg():
     return falta
 
 
+def whisper_cli():
+    """El ejecutable de whisper.cpp. Lo busca en el PATH y, si no está (en WSL `~/.local/bin` solo entra
+    con una shell de login), en los sitios donde lo deja la guía."""
+    p = shutil.which("whisper-cli")
+    if p:
+        return p
+    for c in ("~/.local/bin/whisper-cli", "/usr/local/bin/whisper-cli", "~/whisper.cpp/build/bin/whisper-cli",
+              "/opt/homebrew/bin/whisper-cli"):
+        c = Path(os.path.expanduser(c))
+        if c.exists():
+            return str(c)
+    raise SystemExit("No encuentro whisper-cli. Instálalo como dice INSTALAR.md (paso 2) y comprueba con `which whisper-cli`.")
+
+
+def copiar(src, dst, mover=False):
+    """Copia (o mueve) un archivo sin copiar fechas ni permisos. Google Drive, OneDrive o una carpeta de Windows
+    vistos desde WSL no dejan cambiarlos, y shutil.copy2 fallaba después de copiar."""
+    dst = Path(dst)
+    if dst.is_dir():
+        dst = dst / Path(src).name
+    if mover:
+        shutil.move(str(src), str(dst), copy_function=shutil.copyfile)
+    else:
+        shutil.copyfile(str(src), str(dst))
+    return dst
+
+
+# --- fuente de la marca ------------------------------------------------------------------------
+
+FUENTES = {  # nombre en marca.json → (archivo en marca/fuentes, peso)
+    "anton": ("Anton-Regular.ttf", 400),
+    "bebas neue": ("BebasNeue-Regular.ttf", 400),
+    "barlow condensed": ("BarlowCondensed-ExtraBold.ttf", 800),
+    "oswald": ("Oswald-Variable.ttf", 700),
+}
+
+
+def fuente():
+    """La fuente de los subtítulos según marca.json: (nombre, ruta del archivo, peso). Si no es una de las que
+    vienen en marca/fuentes, se queda Anton y lo avisa."""
+    n = (marca().get("fuente") or "Anton").strip()
+    f = FUENTES.get(n.lower())
+    if not f:
+        print(f"Aviso: la fuente «{n}» de marca.json no está en marca/fuentes; uso Anton. "
+              f"Valen: {', '.join(k.title() for k in FUENTES)}.", file=sys.stderr)
+        n, f = "Anton", FUENTES["anton"]
+    return n, ROOT / "marca/fuentes" / f[0], f[1]
+
+
 def crear_carpetas():
     """Crea la carpeta de trabajo con sus subcarpetas (no toca lo que ya exista)."""
     for clave in CARPETAS:
@@ -204,6 +253,11 @@ if __name__ == "__main__":
           f" · por defecto {palabra_por_defecto() or 'ninguna (cierres sin palabra)'}")
     print(f"Carpeta de trabajo: {carpeta_editor()}" + ("" if carpeta_editor().exists() else "  (no existe todavía)"))
     print(f"Python con OpenCV: {python_opencv()}")
+    print(f"Fuente de los subtítulos: {fuente()[0]}")
+    try:
+        print(f"whisper-cli: {whisper_cli()}")
+    except SystemExit as e:
+        print(e)
     print(f"Vídeo: {'VideoToolbox (Mac)' if usa_videotoolbox() else 'libx264 + zscale (software)'}")
     falta = comprobar_ffmpeg()
     print("FFmpeg: " + ("listo" if not falta else "le falta " + ", ".join(falta)))
